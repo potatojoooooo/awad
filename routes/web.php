@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::view("displayBooking","booking.displayBooking");
+Route::view("updateBooking","booking/updateBooking");
