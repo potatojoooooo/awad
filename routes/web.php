@@ -27,10 +27,7 @@ Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::view('/admin', 'admin');
 });
-<<<<<<< HEAD
 
 Route::view("displayBooking","booking.displayBooking");
-=======
 Route::get('logout', [LoginController::class, 'logout']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
->>>>>>> origin/Lam
