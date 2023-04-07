@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
-                <h3>View bookings</h3>
+                <h1>View bookings</h1>
                 <table class="table mt-4">
                     <thead>
                         <tr>
