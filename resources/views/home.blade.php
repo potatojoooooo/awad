@@ -15,9 +15,15 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
-                <h1>Welcome to Jo Salone</h1>
-                <p class="lead">We offer a wide range of beauty services to make you look and feel your best.</p>
-                <a href="" class="btn btn-primary btn-lg">View Our Services</a>
+                <div class="jumbotron jumbotron-fluid bg-transparent">
+                    <div class="container-fluid text-center has-bg-img ">
+                        <h1 class="display-4 ">Welcome to Jo Salone</h1>
+                        <p class="lead ">for him, for her.</p>
+                        <img class="img-fluid rounded mx-3 d-block bg-img" src="{{ asset('image/salon-background.jpg') }}" alt="Jo Salone"><br>
+                        <a href="" class="btn btn-lg btn-outline-dark">Make an appointment now</a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
