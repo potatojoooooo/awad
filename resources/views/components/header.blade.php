@@ -14,7 +14,7 @@
         </div>
         <div class="nav-bar ">
             <ul id="nav" class="nav d-flex justify-content-between mt-5">
-                <li><a class="btn btn-link text-dark" href="">
+                <li><a class="btn btn-link text-dark" href="{{ route('home') }}">
                         <h4>home</h4>
                     </a></li>
                 <li><a class="btn btn-link text-dark" href="">

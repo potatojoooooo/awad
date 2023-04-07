@@ -60,19 +60,16 @@ class RegisterController extends Controller
     {
         return view('auth.register', ['url' => 'admin']);
     }
+
+    public function showUserRegisterForm()
+    {
+        return view('auth.register', ['url' => 'user']);
+    }
     /**
      * @param array $data
      *
      * @return mixed
      */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
     /**
      * @param Request $request
      *
@@ -87,5 +84,15 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
         return redirect()->intended('login/admin');
+    }
+    protected function createUser(Request $request)
+    {
+        $this->validator($request->all())->validate();
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        return redirect()->intended('login/user');
     }
 }
