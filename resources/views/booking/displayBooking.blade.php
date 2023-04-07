@@ -12,16 +12,11 @@
 </head>
 
 <body>
-
     <div class="container">
         <div class="row justify-content-center" >
             <div class="container py-5 h-100" >
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-xl-10" >
-                        <!-- your content -->
-                        hahahahah
-                    </div>
-                </div>
+                hahaha
+                <!-- YOUR CONTENT -->
             </div>
         </div>
     </div>
