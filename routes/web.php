@@ -32,6 +32,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 Route::view("displayBooking","booking.displayBooking");
 Route::view("aboutus","aboutUs");
 Route::view("contactus","contactUs");
+Route::view("user","user");
 Route::get("services",[ServiceController::class, 'index']);
 Route::get('logout', [LoginController::class, 'logout']);
 Route::view("/","home");

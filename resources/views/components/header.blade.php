@@ -1,6 +1,6 @@
 
 <head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></head>
-<div class="mt-5" style="border-bottom: 2px solid black">
+<div class="mt-5" style="border-bottom: 3px solid lightgray">
     <div class="container mb-2">
         <div class="d-flex justify-content-between">
             <div class="salon-name">
