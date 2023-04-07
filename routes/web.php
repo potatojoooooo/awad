@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ServiceController;
 
 Route::view('/', 'welcome');
 Auth::routes();
@@ -31,5 +32,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 Route::view("displayBooking","booking.displayBooking");
 Route::view("aboutus","aboutUs");
 Route::view("contactus","contactUs");
+Route::get("services",[ServiceController::class, 'index']);
 Route::get('logout', [LoginController::class, 'logout']);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view("/","home");
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
