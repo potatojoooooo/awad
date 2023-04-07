@@ -29,5 +29,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 });
 
 Route::view("displayBooking","booking.displayBooking");
+Route::view("aboutus","aboutUs");
+Route::view("contactus","contactUs");
 Route::get('logout', [LoginController::class, 'logout']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

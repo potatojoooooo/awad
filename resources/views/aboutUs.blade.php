@@ -15,7 +15,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
-                <h1>About Us</h1>
+                <h1>About Us</h1><br>
                 <div class="row">
                     <div class="col-md-6">
                         <h5>Jo Salone is a premier hair salon located in the heart of the city. We pride ourselves on providing exceptional service and creating a warm and welcoming atmosphere for our clients.</h5><br>
