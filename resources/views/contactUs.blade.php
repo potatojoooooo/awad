@@ -22,7 +22,7 @@
                         <h4>Phone: +6013-1452088</h4>
                     </li>
                     <li>
-                        <h4>Email: info@josalon.com</h4>
+                        <h4>Email: info@josalone.com</h4>
                     </li>
                     <li>
                         <h4>Address: 32A, Pavilion Bukit Bulan, Kuala Lumpur</h4>
