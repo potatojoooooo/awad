@@ -64,6 +64,9 @@ Route::view('services','services')->name('services');
 //Display booking
 Route::get("displayBooking",[BookingController::class, 'getBookings']);
 
+//Create booking
+Route::view("createBooking","booking.createBooking");
+
 //Update booking
 Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
 Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
