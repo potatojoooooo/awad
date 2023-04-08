@@ -7,9 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-    public function index()
+    public function getBookings()
     {
-        $bookings = DB::table('bookings')->get();
-        return view('bookings', ['bookings' => $bookings]);
+        $bookings = DB::table('bookings')
+            ->join('services', 'bookings.serviceID', '=', 'services.id')
+            ->select('bookings.*', 'services.name')
+            ->get();
+        return view('booking.displayBooking', ['bookings' => $bookings]);
     }
 }

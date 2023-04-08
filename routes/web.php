@@ -18,6 +18,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BookingController;
 
 //HomePage
 Route::get('/home', function(){
@@ -56,12 +57,12 @@ Route::group(['middleware' => 'auth:user'], function () {
 });
 
 //Services
-Route::get("services",[ServiceController::class, 'index']);
+Route::get("services",[ServiceController::class, 'getServices']);
 //View Services
 Route::view('services','services')->name('services');
 
 //Display booking
-Route::view("displayBooking","booking.displayBooking");
+Route::get("displayBooking",[BookingController::class, 'getBookings']);
 
 //About us
 Route::view("aboutus","aboutUs")->name('aboutus');
@@ -73,5 +74,6 @@ Route::view("contactus","contactUs")->name('contactus');
 Route::view("user","user");
 
 //Log out function
+
 Route::get('logout', [LoginController::class, 'logout']);
 

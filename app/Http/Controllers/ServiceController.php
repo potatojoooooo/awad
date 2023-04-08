@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function getServices()
     {
         $services = DB::table('services')->get();
         return view('services', ['services' => $services]);

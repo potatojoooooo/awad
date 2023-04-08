@@ -23,17 +23,23 @@
                             <th>Date</th>
                             <th>Time</th>
                             <th>Service</th>
-                            <th>Edit / Update</th>
+                            <th>Delete / Update</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($bookings as $booking)
                         <tr>
-                            <td>id</td>
-                            <td>date</td>
-                            <td>time</td>
-                            <td>hahahahaha</td>
-                            <td><button type="button" class="btn btn-outline-dark mr-2">update</button></td>
+                            <td>{{$booking -> id}}</td>
+                            <td>{{$booking -> date}}</td>
+                            <td>{{$booking -> time}}</td>
+                            <td>{{$booking -> service -> name}}</td>
+                            <td></td>
+                            <td>
+                                <button type="button" class="btn btn-outline-dark mr-2">update</button>
+                                <button type="button" class="btn btn-outline-dark mr-2">delete</button>
+                            </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
