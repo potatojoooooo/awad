@@ -23,6 +23,7 @@
                             <th>Date</th>
                             <th>Time</th>
                             <th>Service</th>
+                            <th>Edit / Update</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,6 +32,7 @@
                             <td>date</td>
                             <td>time</td>
                             <td>hahahahaha</td>
+                            <td><button type="button" class="btn btn-outline-dark mr-2">update</button></td>
                         </tr>
                     </tbody>
                 </table>
