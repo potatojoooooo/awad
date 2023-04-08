@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,23 +18,65 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BookingController;
 
-Route::view('/', 'welcome');
+//HomePage
+Route::get('/home', function(){
+    return view('home');
+})->name('home');
+
 Auth::routes();
-Route::get('/login/admin', [LoginController::class, 'showAdminLoginForm']);
-Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
+//Show admin login form
+Route::get('/login/admin', [LoginController::class, 'showAdminLoginForm'])->name('login.admin');
+//Post admin login details
 Route::post('/login/admin', [LoginController::class, 'adminLogin']);
+
+//Show user login form
+Route::get('/login/user', [LoginController::class, 'showUserLoginForm'])->name('login.user');
+//Post user login details
+Route::post('/login/user', [LoginController::class, 'userLogin']);
+
+//Show admin register form
+Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
+//Post admin register details
 Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
+
+//Show admin register form
+Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm']);
+//Post user register details
+Route::post('/register/user', [RegisterController::class, 'createUser']);
+
+//Verify and view admin in authenticated
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::view('/admin', 'admin');
 });
 
-Route::view("displayBooking","booking.displayBooking");
-Route::view("createBooking","booking.createBooking");
-Route::view("aboutus","aboutUs");
-Route::view("contactus","contactUs");
+//Verify and view user is authenticated
+Route::group(['middleware' => 'auth:user'], function () {
+    Route::view('/user', 'user');
+});
+
+//Services
+Route::get("services",[ServiceController::class, 'getServices']);
+//View Services
+Route::view('services','services')->name('services');
+
+//Display booking
+Route::get("displayBooking",[BookingController::class, 'getBookings']);
+
+//Create booking
+Route::get("createBooking","createBooking");
+
+//About us
+Route::view("aboutus","aboutUs")->name('aboutus');
+
+//Contact us
+Route::view("contactus","contactUs")->name('contactus');
+
+//After login as user will show this page
 Route::view("user","user");
-Route::get("services",[ServiceController::class, 'index']);
+
+//Log out function
+
 Route::get('logout', [LoginController::class, 'logout']);
-Route::view("/","home");
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
