@@ -11,8 +11,6 @@
 </head>
 
 <body>
-    @extends('layouts.app')
-    @section('content')
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-lg-8 col-xl-6">
@@ -79,7 +77,6 @@
                 </div>
             </div>
         </div>
-        @endsection
     </div>
 </body>
 
