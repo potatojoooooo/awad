@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BookingController;
 
 Route::view('/', 'welcome');
 Auth::routes();
@@ -30,6 +31,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
 });
 
 Route::view("displayBooking","booking.displayBooking");
+Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
+Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
 Route::view("aboutus","aboutUs");
 Route::view("contactus","contactUs");
 Route::view("user","user");
