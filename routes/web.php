@@ -19,7 +19,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
 
+<<<<<<< HEAD
+Route::get('/home', function () {
+=======
 Route::get('/', function () {
+>>>>>>> origin/Lam
     return view('home');
 })->name('home');
 
