@@ -13,10 +13,27 @@
 
 <body>
     <div class="container">
-        <div class="row justify-content-center" >
-            <div class="container mt-4 h-100" >
-                hahaha
-                <!-- YOUR CONTENT -->
+        <div class="row justify-content-center">
+            <div class="container mt-4 h-100">
+                <h1>View bookings</h1>
+                <table class="table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Service</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>id</td>
+                            <td>date</td>
+                            <td>time</td>
+                            <td>hahahahaha</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

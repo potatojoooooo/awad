@@ -17,6 +17,7 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\ServiceController;
 
 Route::get('/home', function () {
     return view('home');
@@ -40,4 +41,10 @@ Route::group(['middleware' => 'auth:user'], function () {
 });
 
 Route::view("displayBooking","booking.displayBooking");
+Route::view("aboutus","aboutUs");
+Route::view("contactus","contactUs");
+Route::view("user","user");
+Route::get("services",[ServiceController::class, 'index']);
 Route::get('logout', [LoginController::class, 'logout']);
+Route::view("/","home");
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
