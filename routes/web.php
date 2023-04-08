@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 });
 
 Route::view("displayBooking","booking.displayBooking");
+Route::view("createBooking","booking.createBooking");
 Route::view("aboutus","aboutUs");
 Route::view("contactus","contactUs");
 Route::view("user","user");

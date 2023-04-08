@@ -12,10 +12,10 @@ class Booking extends Model
     protected $table = 'bookings';
 
     protected $fillable = [
-        'userID',
         'date',
         'time',
         'serviceID',
+        'phone'
     ];
 
     public function service()
