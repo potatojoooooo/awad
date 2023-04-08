@@ -20,37 +20,61 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BookingController;
 
-<<<<<<< HEAD
-Route::get('/home', function () {
-=======
-Route::get('/', function () {
->>>>>>> origin/Lam
+//HomePage
+Route::get('/home', function(){
     return view('home');
 })->name('home');
 
 Auth::routes();
+//Show admin login form
 Route::get('/login/admin', [LoginController::class, 'showAdminLoginForm'])->name('login.admin');
-Route::get('/login/user', [LoginController::class, 'showUserLoginForm'])->name('login.user');
-Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
-Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm']);
+//Post admin login details
 Route::post('/login/admin', [LoginController::class, 'adminLogin']);
+
+//Show user login form
+Route::get('/login/user', [LoginController::class, 'showUserLoginForm'])->name('login.user');
+//Post user login details
 Route::post('/login/user', [LoginController::class, 'userLogin']);
+
+//Show admin register form
+Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
+//Post admin register details
 Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
+
+//Show admin register form
+Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm']);
+//Post user register details
 Route::post('/register/user', [RegisterController::class, 'createUser']);
+
+//Verify and view admin in authenticated
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::view('/admin', 'admin');
 });
 
+//Verify and view user is authenticated
 Route::group(['middleware' => 'auth:user'], function () {
     Route::view('/user', 'user');
 });
 
+//Services
+Route::get("services",[ServiceController::class, 'index']);
+//View Services
+Route::view('services','services')->name('services');
+
+//Display booking
 Route::view("displayBooking","booking.displayBooking");
+
+//About us
 Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
 Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
-Route::view("aboutus","aboutUs");
-Route::view("contactus","contactUs");
+Route::view("aboutus","aboutUs")->name('aboutus');
+
+//Contact us
+Route::view("contactus","contactUs")->name('contactus');
+
+//After login as user will show this page
 Route::view("user","user");
-Route::get("services",[ServiceController::class, 'index']);
+
+//Log out function
 Route::get('logout', [LoginController::class, 'logout']);
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
