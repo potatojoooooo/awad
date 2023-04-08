@@ -39,9 +39,9 @@ class BookingController extends Controller
     protected function validateBooking(array $data)
     {
         return Validator::make($data, [
-            'date' => 'required',
+            'date' => 'required | date',
             'time' => 'required',
-            'serviceID' => 'required',
+            'serviceID' => 'required | integer',
             'name' => 'required|max:2',
             'phone' => 'required|max:2'
         ], [
@@ -50,15 +50,19 @@ class BookingController extends Controller
         ]);
     }
 
-    protected function createBooking(array $data)
+    protected function createBooking(Request $request)
     {
-        return Booking::create([
-            'date' => $data['date'],
-            'time' => $data['time'],
-            'serviceId' => $data['serviceId'],
-            'name' => $data['name'],
-            'phone' => $data['phone'],
+        $this->validator($request->all())->validate();
+        Booking::create([
+            'date' => $request->date,
+            'time' => $request->time,
+            'serviceID' => $request->serviceID,
+            'name' => $request->name,
+            'phone' => $request->phone,
 
         ]);
+        return redirect()->intended('login/admin');
     }
+
+  
 }

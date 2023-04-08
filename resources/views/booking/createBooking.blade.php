@@ -45,7 +45,7 @@
                                                 <div class="form-outline mb-4">
                                                     <label for="time" class="form-label">{{ __('Select An Hour') }}</label>
 
-                                                    <input id="time" type="time" class="form-control @error('password') is-invalid @enderror" name="time" required autocomplete="time">
+                                                    <input id="time" type="time" class="form-control @error('time') is-invalid @enderror" name="time" required autocomplete="time" autofocus>
                                                     @error('time')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -57,14 +57,14 @@
                                                 <div class="form-outline mb-4">
                                                     <label for="text" class="form-label">{{ __('Enter Service ID') }}</label>
 
-                                                    <input id="text" type="text" class="form-control @error('serviceID') is-invalid @enderror" name="serviceID" required autocomplete="serviceID">
+                                                    <input id="serviceID" type="text" class="form-control @error('serviceID') is-invalid @enderror" name="serviceID" required autocomplete="serviceID" autofocus>
                                                     @error('serviceID')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
                                                     </span>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group">
+                                                <!-- <div class="form-group">
                                                     <label for="serviceOptions">Select Your Desired Services</label>
                                                     <select multiple class="form-control" id="serviceOpions" name="selectedOptions[]">
                                                         <option value="option1">Service 1</option>
@@ -78,13 +78,13 @@
                                                     @if(isset($selectedOptions))
                                                     Selected options: {{ implode(', ', $selectedOptions) }}
                                                     @endif
-                                                </div>
+                                                </div> -->
 
 
                                                 <div class="form-outline mb-4">
                                                     <label for="name" class="form-label">{{ __('Enter Your Name') }}</label>
                                                    
-                                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name">
+                                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" required autocomplete="name" autofocus>
                                                     @error('name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -96,7 +96,7 @@
                                                 <div class="form-outline mb-4">
                                                     <label for="phone" class="form-label">{{ __('Enter Your Mobile Phone') }}</label>
 
-                                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" required autocomplete="phone">
+                                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" required autocomplete="phone" autofocus>
                                                     @error('phone')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

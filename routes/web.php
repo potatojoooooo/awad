@@ -65,7 +65,7 @@ Route::view('services','services')->name('services');
 Route::get("displayBooking",[BookingController::class, 'getBookings']);
 
 //Create booking
-Route::get("createBooking","createBooking");
+Route::view("createBooking","booking.createBooking");
 
 //About us
 Route::view("aboutus","aboutUs")->name('aboutus');

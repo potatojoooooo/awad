@@ -15,6 +15,7 @@ class Booking extends Model
         'date',
         'time',
         'serviceID',
+        'name',
         'phone'
     ];
 
