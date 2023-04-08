@@ -6,18 +6,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Update Your Booking</title>
     <link rel="icon" type="image/x-icon" href="{{URL::asset('/image/logo.png')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    
 </head>
 
 <body>
-
+    
     <div class="container">
         <div class="row justify-content-center">
-            <div class="container py-5 h-100">
+            <div class="container mt-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-xl-10">
                         <div class="card text-black" style="border-radius:10px">
@@ -57,8 +56,8 @@
                                                 <div class="form-outline mb-4">
                                                     <label for="serviceID" class="form-label">{{ __('Select New Service ID') }}</label>
 
-                                                    <select class="form-select @error('serviceID') is-invalid @enderror" id="serviceID" name="serviceID" >
-                                                        <option value="">---Choose---</option>
+                                                    <select class="form-select form-control @error('serviceID') is-invalid @enderror" id="serviceID" name="serviceID" >
+                                                        <option value="">---Select an Option---</option>
                                                         <option value="{{1}}" {{ $booking['serviceID'] == '1' ? 'selected' : '' }}>Service 1</option>
                                                         <option value="{{2}}" {{ $booking['serviceID'] == '2' ? 'selected' : '' }}>Service 2</option>
                                                         <option value="{{3}}" {{ $booking['serviceID'] == '3' ? 'selected' : '' }}>Service 3</option>
@@ -79,7 +78,7 @@
                                             </form>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 px-0 d-none d-sm-block">
+                                <div class="col-sm-6 px-5 d-none d-sm-block">
                                     <div class="text-center">
                                         <h4 class="mt-3 mb-4 pb-1">Services</h4>
                                         <!-- <div style="border-bottom: 1px solid; width:50%;"></div> -->
@@ -109,7 +108,6 @@
                                         with our assitants or ask them to get their mask off
                                     </div>
                                 </div>
-                            </div>
                             </div>
                         </div>
                     </div>

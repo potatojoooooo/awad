@@ -31,9 +31,8 @@ class BookingController extends Controller
     public function updateBooking(Request $req)
     {
         $req->validate([
-            'date' => 'required|after:today',
-            //'time' => ['required', 'after:' . Carbon::now()->format('H:i'),],
-            'time' => 'required|after:08:59|before:17:01',
+            'date' => 'required|after:today', 
+            'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
             'serviceID' => 'required',      
         ], [
             'date.after' => 'The new date must be tommorrow or a future date.',
