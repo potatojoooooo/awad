@@ -23,10 +23,10 @@
                 <li><a class="btn btn-link text-dark" href="">
                         <h4>bookings</h4>
                     </a></li>
-                <li><a class="btn btn-link text-dark" href="">
+                <li><a class="btn btn-link text-dark" href="{{ route('aboutus') }}">
                         <h4>about us</h4>
                     </a></li>
-                <li><a class="btn btn-link text-dark" href="">
+                <li><a class="btn btn-link text-dark" href="{{ route('contactus') }}">
                         <h4>contact us</h4>
                     </a></li>
             </ul>
