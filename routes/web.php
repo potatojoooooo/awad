@@ -57,12 +57,12 @@ Route::group(['middleware' => 'auth:user'], function () {
 });
 
 //Services
-Route::get("services",[ServiceController::class, 'index']);
+Route::get("services",[ServiceController::class, 'getServices']);
 //View Services
 Route::view('services','services')->name('services');
 
 //Display booking
-Route::view("displayBooking","booking.displayBooking");
+Route::get("displayBooking",[BookingController::class, 'getBookings']);
 
 //Update booking
 Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
@@ -78,5 +78,6 @@ Route::view("contactus","contactUs")->name('contactus');
 Route::view("user","user");
 
 //Log out function
+
 Route::get('logout', [LoginController::class, 'logout']);
 
