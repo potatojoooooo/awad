@@ -19,7 +19,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
 
+<<<<<<< HEAD
 Route::get('/home', function () {
+=======
+Route::get('/', function () {
+>>>>>>> origin/Lam
     return view('home');
 })->name('home');
 
@@ -46,5 +50,4 @@ Route::view("contactus","contactUs");
 Route::view("user","user");
 Route::get("services",[ServiceController::class, 'index']);
 Route::get('logout', [LoginController::class, 'logout']);
-Route::view("/","home");
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
