@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
     })->name('admin.home');
 });
 
-Route::group(['middleware' => ['auth:user']], function () {
+Route::group(['middleware' => ['auth:web']], function () {
     Route::get('/user/home', function () {
         return view('home');
     })->name('user.home');
@@ -65,12 +65,14 @@ Route::group(['middleware' => ['auth:user']], function () {
 Route::get('/services', [ServiceController::class, 'getServices'])->name('services');
 
 //Display booking
-Route::get("displayBooking",[BookingController::class, 'getBookings']);
+Route::get("displayBooking",[BookingController::class, 'getBookings'])->name('booking.displayBooking');
 
 //Create booking
 Route::view("createBooking","booking.createBooking")->name('booking.createBooking');
+Route::post("createBooking",[BookingController::class,'createBooking']);
 
 //Update booking
+Route::view("updateBooking","booking.updateBooking")->name('booking.updateBooking');
 Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
 Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
 
@@ -82,4 +84,3 @@ Route::view("contactus","contactUs")->name('contactus');
 
 //Log out function
 Route::get('logout', [LoginController::class, 'logout']);
-

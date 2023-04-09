@@ -22,24 +22,33 @@
                             <th>Booking ID</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Service</th>
+                            <th>Services</th>
                             <th>Delete / Update</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($bookings as $booking)
-                        <tr>
-                            <td>{{$booking -> id}}</td>
-                            <td>{{$booking -> date}}</td>
-                            <td>{{$booking -> time}}</td>
-                            <td>{{$booking -> service -> name}}</td>
-                            <td></td>
-                            <td>
-                                <button type="button" class="btn btn-outline-dark mr-2">update</button>
-                                <button type="button" class="btn btn-outline-dark mr-2">delete</button>
-                            </td>
-                        </tr>
-                        @endforeach
+                        @if(session()->has('user_id'))
+                            @if(isset($bookings) && count($bookings) > 0)
+                                @foreach($bookings as $booking)
+                                    @if($booking->userID == session('user_id'))
+                                    <tr>
+                                        <td>{{$booking -> id}}</td>
+                                        <td>{{$booking -> date}}</td>
+                                        <td>{{$booking -> time}}</td>
+                                        <td>{{$booking -> serviceID}}</td>
+                                        <td>
+                                            <a href="{{ route('booking.updateBooking') }}">
+                                                <button type="button" class="btn btn-outline-dark mr-2">update</button>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-dark mr-2">delete</button>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                                @else
+                                <h4>No booking made at the moment.</h4>
+                            @endif
+                        @endif
                     </tbody>
                 </table>
             </div>
