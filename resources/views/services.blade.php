@@ -16,6 +16,7 @@
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
                 <h1>Our Services</h1><br>
+                @if(isset($services) && count($services) > 0)
                 <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
                 <ul class="list-group">
                     @foreach($services as $service)
@@ -23,16 +24,21 @@
                         <div class="d-flex justify-content-between">
                             <div>
                                 <h4>{{$service -> name}}</h4>
-                                <h5>RM {{$service -> price}}</h5>
-                                <h5>{{$service -> description}}</h5>
+                                <h6>RM {{$service -> price}}</h6>
+                                <h6>{{$service -> description}}</h6>
                             </div>
-                            <button type="button" class="btn btn-outline-dark mr-2">book now</button>
+                            <a href="{{ route('booking.createBooking') }}">
+                                <button type="button" class="btn btn-outline-dark mr-2">book now</button>
+                            </a>
                         </div>
                     </li>
                     @endforeach
                 </ul>
-
+                @else
+                <h4>No services available at the moment.</h4>
+                @endif
             </div>
+
         </div>
     </div>
 </body>

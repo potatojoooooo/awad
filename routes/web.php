@@ -62,22 +62,17 @@ Route::group(['middleware' => ['auth:user']], function () {
 });
 
 //Services
-Route::get("services",[ServiceController::class, 'getServices']);
-//View Services
-Route::view('services','services')->name('services');
+Route::get('/services', [ServiceController::class, 'getServices'])->name('services');
 
 //Display booking
 Route::get("displayBooking",[BookingController::class, 'getBookings']);
 
 //Create booking
-Route::view("createBooking","booking.createBooking");
+Route::view("createBooking","booking.createBooking")->name('booking.createBooking');
 
 //Update booking
 Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
 Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
-
-//Create booking
-Route::view("createbooking","createbooking");
 
 //About us
 Route::view("aboutus","aboutUs")->name('aboutus');
@@ -86,6 +81,5 @@ Route::view("aboutus","aboutUs")->name('aboutus');
 Route::view("contactus","contactUs")->name('contactus');
 
 //Log out function
-
 Route::get('logout', [LoginController::class, 'logout']);
 

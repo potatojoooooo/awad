@@ -8,7 +8,9 @@
                 <h1>jo salone</h1>
             </div>
             <div class="d-inline-flex">
-                <button type="button" class="btn btn-outline-dark mr-2">book</button>
+                <a href="{{ route('booking.createBooking') }}">
+                    <button type="button" class="btn btn-outline-dark mr-2">book</button>
+                </a>
                 <a href="{{ route('loginRegister') }}">
                     <button type="button" class="btn" style="border: none; font-size: 35px">
                         <i class="fa fa-user" aria-hidden="true"></i>
@@ -22,10 +24,10 @@
                 <li><a class="btn btn-link text-dark" href="{{ route('home') }}">
                         <h4>home</h4>
                     </a></li>
-                <li><a class="btn btn-link text-dark" href="">
+                <li><a class="btn btn-link text-dark" href="{{ route('services') }}">
                         <h4>services</h4>
                     </a></li>
-                <li><a class="btn btn-link text-dark" href="">
+                <li><a class="btn btn-link text-dark" href="{{ route('booking.createBooking') }}">
                         <h4>bookings</h4>
                     </a></li>
                 <li><a class="btn btn-link text-dark" href="{{ route('aboutus') }}">
