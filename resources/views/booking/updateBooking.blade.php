@@ -57,12 +57,19 @@
                                                     <label for="serviceID" class="form-label">{{ __('Select New Service ID') }}</label>
 
                                                     <select class="form-select form-control @error('serviceID') is-invalid @enderror" id="serviceID" name="serviceID" >
-                                                        <option value="">---Select an Option---</option>
+                                                        <option value="">---Select Desired Service(s)---</option>
                                                         <option value="{{1}}" {{ $booking['serviceID'] == '1' ? 'selected' : '' }}>Service 1</option>
                                                         <option value="{{2}}" {{ $booking['serviceID'] == '2' ? 'selected' : '' }}>Service 2</option>
                                                         <option value="{{3}}" {{ $booking['serviceID'] == '3' ? 'selected' : '' }}>Service 3</option>
                                                         <option value="{{4}}" {{ $booking['serviceID'] == '4' ? 'selected' : '' }}>Service 4</option>
                                                     </select>
+                                                    <!-- <select class="form-select form-control @error('serviceID') is-invalid @enderror" id="serviceID" name="serviceID[]" multiple>
+                                                        <option value="">---Select Desired Service(s)---</option>
+                                                        <option value="{{1}}" >Service 1</option>
+                                                        <option value="{{2}}" >Service 2</option>
+                                                        <option value="{{3}}" >Service 3</option>
+                                                        <option value="{{4}}" >Service 4</option>
+                                                    </select> -->
                                                     @error('serviceID')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>

@@ -22,8 +22,6 @@ class BookingController extends Controller
     public function showUpdate($id)
     {   
         $booking = Booking::find($id);
-        $dateOnly = new Carbon($booking->date);
-        $booking->date = $dateOnly->toDateString(); 
         $booking->time = Carbon::parse($booking->time)->format('H:i');
         return view("booking.updateBooking", ['booking'=>$booking]);
     }
@@ -33,18 +31,16 @@ class BookingController extends Controller
         $req->validate([
             'date' => 'required|after:today', 
             'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
-            'serviceID' => 'required',      
+            'serviceID' => 'required',     
         ], [
             'date.after' => 'The new date must be tommorrow or a future date.',
         ]);
 
         $booking = Booking::find($req->id);
         
-        // Combine the date and time into a datetime object
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $req->date.' '.$req->time.':00');
-        $booking->date = $datetime;
-        $booking->time = $datetime;
-        $booking->serviceID = $req->serviceID;
+        $booking->date = $req->date;
+        $booking->time = Carbon::createFromFormat('H:i:s', $req->time.':00');
+        $booking->serviceID;
         $booking->save();
         return redirect("displayBooking");
     }
