@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\BookingController;
 
 //HomePage
 Route::get('/', function(){
@@ -61,12 +62,19 @@ Route::group(['middleware' => ['auth:user']], function () {
 });
 
 //Services
-Route::get("services",[ServiceController::class, 'index']);
+Route::get("services",[ServiceController::class, 'getServices']);
 //View Services
 Route::view('services','services')->name('services');
 
 //Display booking
-Route::view("displayBooking","booking.displayBooking");
+Route::get("displayBooking",[BookingController::class, 'getBookings']);
+
+//Create booking
+Route::view("createBooking","booking.createBooking");
+
+//Update booking
+Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
+Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
 
 //Create booking
 Route::view("createbooking","createbooking");
@@ -78,5 +86,6 @@ Route::view("aboutus","aboutUs")->name('aboutus');
 Route::view("contactus","contactUs")->name('contactus');
 
 //Log out function
+
 Route::get('logout', [LoginController::class, 'logout']);
 
