@@ -1,5 +1,6 @@
-
-<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></head>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 <div class="mt-5" style="border-bottom: 3px solid lightgray">
     <div class="container mb-2">
         <div class="d-flex justify-content-between">
@@ -8,7 +9,11 @@
             </div>
             <div class="d-inline-flex">
                 <button type="button" class="btn btn-outline-dark mr-2">book</button>
-                <button type="button" class="btn" style="border: none; font-size: 35px"><i class="fa fa-user" aria-hidden="true"></i></button>
+                <a href="{{ route('loginRegister') }}">
+                    <button type="button" class="btn" style="border: none; font-size: 35px">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </button>
+                </a>
             </div>
 
         </div>

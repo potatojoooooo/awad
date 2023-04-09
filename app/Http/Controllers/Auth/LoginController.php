@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
     /**
      * Create a new controller instance.
      *
@@ -36,14 +37,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('guest:admin')->except('logout');
     }
+
     public function showAdminLoginForm()
     {
         return view('auth.login', ['url' => 'admin']);
     }
+
     public function showUserLoginForm()
     {
         return view('auth.login', ['url' => 'user']);
     }
+
     public function adminLogin(Request $request)
     {
         $this->validate($request, [
@@ -51,10 +55,14 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-            return redirect()->intended('/admin');
+            $admin = Admin::where('email', $request->email)->first();
+            $admin_name = $admin->name;
+            session(['admin_name' => $admin_name]);
+            return redirect()->intended('/admin/home');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
+
     public function userLogin(Request $request)
     {
         $this->validate($request, [
@@ -62,13 +70,15 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
         if (Auth::guard('user')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-            return redirect()->intended('/user');
+            return redirect()->intended('/user/home');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
-    public function logout(Request $request) { 
+
+
+    public function logout()
+    {
         Auth::logout(); // log out the user
-        return redirect()->route('home'); // redirect to home route
+        return redirect()->route('home')->with('message', 'You have been logged out.'); // redirect to home route
     }
-    
 }

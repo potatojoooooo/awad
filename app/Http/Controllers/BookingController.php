@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Booking;
 
 class BookingController extends Controller
 {
@@ -11,5 +13,53 @@ class BookingController extends Controller
     {
         $bookings = DB::table('bookings')->get();
         return view('bookings', ['bookings' => $bookings]);
+    }
+
+    // public function processForm(Request $request)
+    // {
+    //     $selectedOptions = $request->input('selectedOptions');
+    //     // return view('form', ['selectedOptions' => $selectedOptions]);
+    //     
+    // }
+
+    // protected function validateBooking(array $data)
+    // {
+    //     return Validator::make($data, [
+    //         'date' => 'required',
+    //         'time' => 'required',
+    //         'serviceID' => 'required',
+    //         'name' => 'required|max:2',
+    //         'phone' => 'required| max:2'
+    //     ]);
+    // }
+
+    protected function validateBooking(array $data)
+{
+    return Validator::make($data, [
+        'date' => ['required'],
+        'time' => ['required'],
+        'serviceID' => ['required'],
+        'name' => ['required', 'string', 'max:2'],
+        'phone' => ['required', 'string', 'regex:/^\d{10}$/'], 
+    ]), 
+}
+
+
+
+    protected function createBooking(Request $request)
+    {
+        $validator = $this->validateBooking($request->all());
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        Booking::create([
+            'date' => $request->date,
+            'time' => $request->time,
+            'serviceID' => $request->serviceID,
+            'name' => $request->name,
+            'phone' => $request->phone,
+        ]);
     }
 }

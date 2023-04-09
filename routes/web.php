@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +19,12 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
 
 //HomePage
-Route::get('/home', function(){
+Route::get('/', function(){
     return view('home');
 })->name('home');
+
+//Show login and register option
+Route::view('loginRegister','loginRegister')->name('loginRegister');
 
 Auth::routes();
 //Show admin login form
@@ -41,18 +43,21 @@ Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm
 Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
 
 //Show admin register form
-Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm']);
+Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm'])->name('register.user');
 //Post user register details
 Route::post('/register/user', [RegisterController::class, 'createUser']);
 
-//Verify and view admin in authenticated
-Route::group(['middleware' => 'auth:admin'], function () {
-    Route::view('/admin', 'admin');
+// Verify and view admin is authenticated
+Route::group(['middleware' => ['auth:admin']], function () {
+    Route::get('/admin/home', function () {
+        return view('home');
+    })->name('admin.home');
 });
 
-//Verify and view user is authenticated
-Route::group(['middleware' => 'auth:user'], function () {
-    Route::view('/user', 'user');
+Route::group(['middleware' => ['auth:user']], function () {
+    Route::get('/user/home', function () {
+        return view('home');
+    })->name('user.home');
 });
 
 //Services
@@ -63,14 +68,14 @@ Route::view('services','services')->name('services');
 //Display booking
 Route::view("displayBooking","booking.displayBooking");
 
+//Create booking
+Route::view("createbooking","createbooking");
+
 //About us
 Route::view("aboutus","aboutUs")->name('aboutus');
 
 //Contact us
 Route::view("contactus","contactUs")->name('contactus');
-
-//After login as user will show this page
-Route::view("user","user");
 
 //Log out function
 Route::get('logout', [LoginController::class, 'logout']);

@@ -11,22 +11,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $('.nav-link').on('click', function() {
-            $('.nav-link').removeClass('active');
-            $(this).addClass('active');
-        });
+        $(document).ready(function() {
+            $('.nav-link').on('click', function() {
+                $('.nav-link').removeClass('active');
+                $(this).addClass('active');
+            });
 
-        var currentURL = window.location.href;
-        if (currentURL.indexOf("{{ route('login.admin') }}") !== -1) {
-            $('#tab-userlogin').removeClass('active');
-            $('#tab-adminlogin').addClass('active');
-        } else if (currentURL.indexOf("{{ route('login.user') }}") !== -1) {
-            $('#tab-adminlogin').removeClass('active');
-            $('#tab-userlogin').addClass('active');
-        }
-    });
-</script>
+            var currentURL = window.location.href;
+            if (currentURL.indexOf("{{ route('login.admin') }}") !== -1) {
+                $('#tab-userlogin').removeClass('active');
+                $('#tab-adminlogin').addClass('active');
+            } else if (currentURL.indexOf("{{ route('login.user') }}") !== -1) {
+                $('#tab-adminlogin').removeClass('active');
+                $('#tab-userlogin').addClass('active');
+            }
+        });
+    </script>
 
 </head>
 
@@ -44,6 +44,7 @@
                                 <a class="nav-link" id="tab-adminlogin" data-mdb-toggle="pill" href="{{ route('login.admin') }}" role="tab" aria-controls="pills-register" aria-selected="false">Admin Login</a>
                             </li>
                         </ul>
+
                         <div class="card text-black" style="border-radius:10px">
                             <div class="row g-0">
                                 <div class="col-lg-6 w-100">
@@ -51,7 +52,6 @@
                                     <div class="card-body p-md-0 mx-md-4">
                                         <div class="text-center">
                                             <img src="{{URL::asset('/image/logo.png')}}" style="width: 185px;" alt="logo">
-                                            <!-- <h4 class="mt-1 mb-5 pb-1">jo salone</h4> -->
                                         </div>
                                         @isset($url)
                                         <form method="POST" action='{{ url("login/$url") }}' aria-label="{{ __('Login') }}">
@@ -82,7 +82,7 @@
 
                                                 </div>
                                                 <div class="text-center pt-1 mb-5 pb-1">
-                                                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">
+                                                    <button class="btn btn-light btn-block fa-lg gradient-custom-2 mb-3" type="submit" style="border: 2px solid black;">
                                                         {{ __('Login') }}
                                                     </button>
                                                 </div>
