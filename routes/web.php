@@ -64,7 +64,7 @@ Route::group(['middleware' => ['auth:web']], function () {
 
 
 //Profile
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::get('/profile', [ProfileController::class, 'getUser'])->name('profile');
 
 //Services
 Route::get('/services', [ServiceController::class, 'getServices'])->name('services');

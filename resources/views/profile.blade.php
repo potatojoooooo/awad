@@ -25,16 +25,17 @@
                                     <div class="col-lg-12">
                                         <div class="card mb-4">
                                             <div class="card-body text-center">
-                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtihpItuDUx9xhrdlLi5Fc7_FNaE-P3898S3RqEbU&s" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                                                <h5 class="my-3">test</h5>
+                                                
+                                                <h5 class="my-3">Account Details</h5>
                                                 <div class="card mb-4">
                                                     <div class="card-body">
+                                                        @foreach($user as $userDetail)
                                                         <div class="row">
                                                             <div class="col-sm-3">
                                                                 <p class="mb-0">Name</p>
                                                             </div>
                                                             <div class="col-sm-9">
-                                                                <p class="text-muted mb-0">test</p>
+                                                                <p class="text-muted mb-0">{{$userDetail -> name}}</p>
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -43,7 +44,7 @@
                                                                 <p class="mb-0">Email</p>
                                                             </div>
                                                             <div class="col-sm-9">
-                                                                <p class="text-muted mb-0">test</p>
+                                                                <p class="text-muted mb-0">{{$userDetail -> email}}</p>
                                                             </div>
                                                         </div>
                                                         <hr>
@@ -52,11 +53,14 @@
                                                                 <p class="mb-0">Phone number</p>
                                                             </div>
                                                             <div class="col-sm-9">
-                                                                <p class="text-muted mb-0">test</p>
+                                                                <p class="text-muted mb-0">{{$userDetail -> name}}</p>
                                                             </div>
                                                         </div>
                                                         <hr>
+                                                        @endforeach
                                                         <a href="{{ route('logout') }}" class="btn btn-lg btn-outline-dark">Log out</a>
+                                                        <a href="{{ route('logout') }}" class="btn btn-lg btn-outline-dark">View bookings</a>
+                                                        <a href="{{ route('logout') }}" class="btn btn-lg btn-outline-dark">Delete account</a>
                                                     </div>
                                                 </div>
                                             </div>
