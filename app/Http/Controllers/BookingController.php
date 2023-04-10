@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Booking;
+use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -23,7 +24,8 @@ class BookingController extends Controller
     {   
         $booking = Booking::find($id);
         $booking->time = Carbon::parse($booking->time)->format('H:i');
-        return view("booking.updateBooking", ['booking'=>$booking]);
+        $services = Service::all();
+        return view("booking.updateBooking", ['booking'=>$booking, 'services'=>$services]);
     }
 
     public function updateBooking(Request $req)
@@ -40,9 +42,10 @@ class BookingController extends Controller
         
         $booking->date = $req->date;
         $booking->time = Carbon::createFromFormat('H:i:s', $req->time.':00');
-        $booking->serviceID;
+        $booking->serviceID = $req->serviceID;
         $booking->save();
-        return redirect("displayBooking");
+        // return redirect("displayBooking");
+        dd($req->all());
     }
     // public function processForm(Request $request)
     // {

@@ -9,6 +9,12 @@
     <title>Update Your Booking</title>
     <link rel="icon" type="image/x-icon" href="{{URL::asset('/image/logo.png')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
     
 </head>
 
@@ -22,15 +28,21 @@
                         <div class="card text-black" style="border-radius:10px">
                             <div class="row g-0">
                                 <div class="col-lg-6">
-                                    <div class="card-header mb-4"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Your Appointment') }}</div>
+                                    <div class="card-header mb-1"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Your Appointment') }}</div>
                                     <div class="card-body p-md-0 mx-md-5">
+                                        <div class="text-center">
+                                            <img src="{{URL::asset('/image/logo.png')}}" style="width: 185px;" alt="logo">
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <h4>jo salone</h4>
+                                        </div>
                                         @isset($url)
                                         <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                             @else
                                             <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                                 @endisset
                                                 @csrf
-                                                <div class="form-outline mb-4">
+                                                <div class="form-outline mb-4 mt-5">
                                                     <input type="hidden" name="id" value="{{$booking['id']}}">
                                                     <label for="date" class="form-label">{{ __('Select New Date') }}</label>
 
@@ -55,21 +67,13 @@
 
                                                 <div class="form-outline mb-4">
                                                     <label for="serviceID" class="form-label">{{ __('Select New Service ID') }}</label>
-
-                                                    <select class="form-select form-control @error('serviceID') is-invalid @enderror" id="serviceID" name="serviceID" >
-                                                        <option value="">---Select Desired Service(s)---</option>
-                                                        <option value="{{1}}" {{ $booking['serviceID'] == '1' ? 'selected' : '' }}>Service 1</option>
-                                                        <option value="{{2}}" {{ $booking['serviceID'] == '2' ? 'selected' : '' }}>Service 2</option>
-                                                        <option value="{{3}}" {{ $booking['serviceID'] == '3' ? 'selected' : '' }}>Service 3</option>
-                                                        <option value="{{4}}" {{ $booking['serviceID'] == '4' ? 'selected' : '' }}>Service 4</option>
+                                                    
+                                                    <select id="serviceID" data-style="btn-default" class="selectpicker form-control @error('serviceID') is-invalid @enderror" name="serviceID" multiple data-max-options="4">
+                                                        @foreach($services as $service)
+                                                            <option value="{{ $service->id }}">{{ $loop->iteration }}. {{ $service->name }}</option>
+                                                            <!-- <option value="{{ $service->id }}">{{ $service->id }}. {{ $service->name }}</option> -->
+                                                        @endforeach
                                                     </select>
-                                                    <!-- <select class="form-select form-control @error('serviceID') is-invalid @enderror" id="serviceID" name="serviceID[]" multiple>
-                                                        <option value="">---Select Desired Service(s)---</option>
-                                                        <option value="{{1}}" >Service 1</option>
-                                                        <option value="{{2}}" >Service 2</option>
-                                                        <option value="{{3}}" >Service 3</option>
-                                                        <option value="{{4}}" >Service 4</option>
-                                                    </select> -->
                                                     @error('serviceID')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -77,17 +81,27 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="text-center pt-1 mb-5 pb-1">
-                                                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">
+                                                <script>
+                                                    // Get the select element
+                                                    const selectElement = document.getElementById('serviceID');
+                                                    // Add an event listener to the select element to listen for changes
+                                                    selectElement.addEventListener('change', () => {
+                                                        // Get the selected values
+                                                        const selectedValues = Array.from(selectElement.selectedOptions, option => option.value);
+                                                    });
+                                                </script>
+
+                                                <div class="text-center pt-1 mt-5 mb-5 pb-1">
+                                                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit">
                                                         {{ __('Update') }}
                                                     </button>
                                                 </div>
                                             </form>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 px-5 d-none d-sm-block">
+                                <div class="col-sm-6 px-0 d-none d-sm-block">
                                     <div class="text-center">
-                                        <h4 class="mt-3 mb-4 pb-1">Services</h4>
+                                        <h4 class="mt-3 mb-5 pb-1">Services</h4>
                                         <!-- <div style="border-bottom: 1px solid; width:50%;"></div> -->
                                     </div>
                                     <div class="text-left">
