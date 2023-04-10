@@ -16,6 +16,18 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         session(['user_id' => $user->id]);
+        $bookings = Booking::where('bookings.userID', $user->id)
+            ->orderBy('id', 'asc')
+            ->with('services')
+            ->get();
+        
+        return view('booking.displayBooking', ['bookings' => $bookings]);
+    }
+
+    public function getAllBookings()
+    {
+        $admin = Auth::admin();
+        session(['admin_id' => $admin->id]);
         $bookings = Booking::orderBy('id', 'asc')
             ->with('services')
             ->get();
