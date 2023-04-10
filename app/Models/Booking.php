@@ -18,4 +18,9 @@ class Booking extends Model
         'serviceID',
         'userID'
     ];
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
+    }
 }

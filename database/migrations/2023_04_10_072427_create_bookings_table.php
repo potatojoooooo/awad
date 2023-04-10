@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->time('time');
-            $table->string('serviceID');
             $table->unsignedBigInteger('userID');
             $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
         });
