@@ -21,12 +21,12 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 
 //HomePage
-Route::get('/', function(){
+Route::get('/', function () {
     return view('home');
 })->name('home');
 
 //Show login and register option
-Route::view('loginRegister','loginRegister')->name('loginRegister');
+Route::view('loginRegister', 'loginRegister')->name('loginRegister');
 
 Auth::routes();
 //Show admin login form
@@ -70,22 +70,22 @@ Route::get('/profile', [ProfileController::class, 'getUser'])->name('profile');
 Route::get('/services', [ServiceController::class, 'getServices'])->name('services');
 
 //Display booking
-Route::get("displayBooking",[BookingController::class, 'getBookings'])->name('booking.displayBooking');
+Route::get("displayBooking", [BookingController::class, 'getBookings'])->name('booking.displayBooking');
 
 //Create booking
-Route::view("createBooking","booking.createBooking")->name('booking.createBooking');
-Route::post("createBooking",[BookingController::class,'createBooking']);
+Route::get("createBooking", [BookingController::class, 'getServices'])->name('booking.createBooking');
+Route::post("createBooking", [BookingController::class, 'createBooking']);
 
 //Update booking
-Route::view("updateBooking","booking.updateBooking")->name('booking.updateBooking');
-Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
-Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
+Route::view("updateBooking", "booking.updateBooking")->name('booking.updateBooking');
+Route::get("updateBooking/{id}", [BookingController::class, 'ShowUpdate']);
+Route::post("updateBooking/{id}", [BookingController::class, 'updateBooking']);
 
 //About us
-Route::view("aboutus","aboutUs")->name('aboutus');
+Route::view("aboutus", "aboutUs")->name('aboutus');
 
 //Contact us
-Route::view("contactus","contactUs")->name('contactus');
+Route::view("contactus", "contactUs")->name('contactus');
 
 //Log out function
 Route::get('logout', [LoginController::class, 'logout']);

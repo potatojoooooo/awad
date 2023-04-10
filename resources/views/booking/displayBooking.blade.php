@@ -16,17 +16,14 @@
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
                 <h1>View bookings</h1>
-                @if(session()->has('user_id'))
-                @if(isset($bookings) && count($bookings) > 0)
-                @foreach($bookings as $booking)
-                @if($booking->userID == session('user_id'))
                 <table class="table mt-4">
                     <thead>
                         <tr>
                             <th>Booking ID</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Delete / Update</th>
+                            <th>Services</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -39,6 +36,7 @@
                                         <td>{{$booking -> date}}</td>
                                         <td>{{$booking -> time}}</td>
                                         <td>{{$booking -> serviceID}}</td>
+                                        
                                         <td>
                                             <a href="{{ route('booking.updateBooking') }}">
                                                 <button type="button" class="btn btn-outline-dark mr-2">update</button>
