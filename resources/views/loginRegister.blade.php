@@ -15,37 +15,26 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
-                <div class="container py-5 h-100">
-                    <div class="row d-flex justify-content-center align-items-center h-100">
-                        <div class="col-xl-10">
-                            <div class="card rounded-3 text-black">
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card border-0">
                                 <div class="row g-0">
-                                    <div class="row">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <div class="card-body p-md-5 mx-md-4">
-                                                    <div class="text-center pt-1 mb-5 pb-1">
-                                                        <a href="{{ route('register.user') }}">
-                                                            <button class="btn btn-light btn-block fa-lg gradient-custom-2 mb-3" type="button" style="border: 2px solid black;">Register an account</button>
-                                                        </a>
-                                                        <h3 class="mb-0 me-2">Register an account now to enjoy more benefits from jo salone</h3><br>
-                                                        <h4 class="mb-0 me-2">✓ birthday benefits</h4><br>
-                                                        <h4 class="mb-0 me-2">✓ yearly promotions</h4><br>
-                                                        <h4 class="mb-0 me-2">✓ early bird products</h4>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6" style="border-left: 2px solid black;">
-                                                <div class="card-body p-md-5 mx-md-4">
-                                                    <div class="text-center pt-1 mb-5 pb-1">
-                                                    <a href="{{ route('login') }}">
-                                                            <button class="btn btn-light btn-block fa-lg gradient-custom-2 mb-3" type="button" style="border: 2px solid black;">Log in</button>
-                                                        </a>
-                                                        <h3 class="mb-0 me-2">Log in now to make booking and enjoy membership benefits!</h3>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="col-md-6 bg-light">
+                                        <div class="card-body p-5">
+                                            <h3 class="card-title">Register an account now to enjoy more benefits from Jo Salone</h3>
+                                            <ul class="list-unstyled mt-4">
+                                                <li><i class="bi bi-check2 me-2"></i>Birthday benefits</li>
+                                                <li><i class="bi bi-check2 me-2"></i>Yearly promotions</li>
+                                                <li><i class="bi bi-check2 me-2"></i>Early bird products</li>
+                                            </ul>
+                                            <a href="{{ route('register.user') }}" class="btn btn-primary btn-block mt-4">Register an account</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body p-5">
+                                            <h3 class="card-title">Log in now to make booking and enjoy membership benefits!</h3>
+                                            <a href="{{ route('login') }}" class="btn btn-light btn-block mt-4">Log in</a>
                                         </div>
                                     </div>
                                 </div>
@@ -54,6 +43,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </body>
+<x-footer></x-footer>
 
 </html>
