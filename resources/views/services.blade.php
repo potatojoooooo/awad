@@ -26,6 +26,7 @@
                                 <h4>{{$service -> name}}</h4>
                                 <h6>RM {{$service -> price}}</h6>
                                 <h6>{{$service -> description}}</h6>
+                                <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
                             </div>
                             <!-- <a href="{{ route('booking.createBooking') }}">
                                 <button type="button" class="btn btn-outline-dark mr-2">book now</button>

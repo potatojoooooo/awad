@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
 use Carbon\Carbon;
+use App\Models\Service;
 use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
@@ -14,37 +16,36 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         session(['user_id' => $user->id]);
-        $bookings = DB::table('bookings')
-            ->join('users', 'bookings.userID', '=', 'users.id')
-            ->where('users.id', $user->id)
-            ->select('bookings.*', 'users.id')
+        $bookings = Booking::orderBy('id', 'asc')
+            ->with('services')
             ->get();
+        
         return view('booking.displayBooking', ['bookings' => $bookings]);
     }
 
     public function showUpdate($id)
-    {   
+    {
         $booking = Booking::find($id);
         $dateOnly = new Carbon($booking->date);
-        $booking->date = $dateOnly->toDateString(); 
+        $booking->date = $dateOnly->toDateString();
         $booking->time = Carbon::parse($booking->time)->format('H:i');
-        return view("booking.updateBooking", ['booking'=>$booking]);
+        return view("booking.updateBooking", ['booking' => $booking]);
     }
 
     public function updateBooking(Request $req)
     {
         $req->validate([
-            'date' => 'required|after:today', 
+            'date' => 'required|after:today',
             'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
-            'serviceID' => 'required',      
+            'serviceID' => 'required',
         ], [
             'date.after' => 'The new date must be tommorrow or a future date.',
         ]);
 
         $booking = Booking::find($req->id);
-        
+
         // Combine the date and time into a datetime object
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $req->date.' '.$req->time.':00');
+        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $req->date . ' ' . $req->time . ':00');
         $booking->date = $datetime;
         $booking->time = $datetime;
         $booking->serviceID = $req->serviceID;
@@ -80,25 +81,38 @@ class BookingController extends Controller
 
     protected function createBooking(Request $req)
     {
-        $req->validate([
-            'date' => 'required|after:today',
-            'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
-            'serviceID' => 'required',
-        ], [
-            'date.after' => 'The new date must be tommorrow or a future date.',
+        // Validate the user input
+        $validatedData = $req->validate([
+            'date' => 'required|date|after:today',
+            'time' => 'required|after:08:59|before:17:01',
+            'services' => 'required|array',
+            'services.*' => 'exists:services,id',
         ]);
-
-        $booking = new Booking;
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $req->date . ' ' . $req->time . ':00');
-        $booking->date = $datetime;
-        $booking->time = $datetime;
-        $booking->serviceID = $req->serviceID;
+        $user = Auth::user();
+        session(['user_id' => $user->id]);
+        // Create a new booking record and retrieve its id
+        $booking = new Booking();
+        $booking->userID = $user->id;
+        $booking->date = $validatedData['date'];
+        $booking->time = $validatedData['time'];
         $booking->save();
-        return redirect("displayBooking");
+        $bookingId = $booking->id;
+
+        // Associate the selected services with the new booking
+        $services = Service::whereIn('id', $validatedData['services'])->get();
+        $booking->services()->attach($services);
+
+        // Redirect the user to the booking details page
+        return redirect()->route('booking.displayBooking');
     }
 
 
-  
+
+    protected function getServices()
+    {
+        $services = DB::table('services')->get();
+        return view('booking.createBooking', ['services' => $services]);
+    }
 }
 
 

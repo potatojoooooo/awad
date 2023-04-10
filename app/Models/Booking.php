@@ -15,7 +15,16 @@ class Booking extends Model
     protected $fillable = [
         'date',
         'time',
-        'serviceID',
         'userID'
     ];
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class, 'booking_services');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

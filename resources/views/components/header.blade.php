@@ -8,14 +8,25 @@
                 <h1>jo salone</h1>
             </div>
             <div class="d-inline-flex">
-                <!-- <a href="{{ route('booking.createBooking') }}">
-                    <button type="button" class="btn btn-outline-dark mr-2">book</button>
-                </a> -->
+                @if(session()->has('user_id'))
+                <a href="{{ route('profile') }}">
+                    <button type="button" class="btn" style="border: none; font-size: 35px">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </button>
+                </a>
+                @elseif(session()->has('admin_id'))
+                <a href="{{ route('profile') }}">
+                    <button type="button" class="btn" style="border: none; font-size: 35px">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                    </button>
+                </a>
+                @else
                 <a href="{{ route('loginRegister') }}">
                     <button type="button" class="btn" style="border: none; font-size: 35px">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </button>
                 </a>
+                @endif
             </div>
 
         </div>

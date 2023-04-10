@@ -25,7 +25,7 @@
                             <th>Date</th>
                             <th>Time</th>
                             <th>Services</th>
-                            <th>Delete / Update</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +37,15 @@
                             <td>{{$booking -> id}}</td>
                             <td>{{$booking -> date}}</td>
                             <td>{{$booking -> time}}</td>
-                            <td>{{$booking -> serviceID}}</td>
+                            <td>
+                                @foreach ($booking->services as $service)
+                                {{ $service->name }}
+                                @if (!$loop->last)
+                                <br>
+                                @endif
+                                @endforeach
+                            </td>
+
                             <td>
                                 <a href="{{ route('booking.updateBooking') }}">
                                     <button type="button" class="btn btn-outline-dark mr-2">update</button>
