@@ -8,9 +8,9 @@
                 <h1>jo salone</h1>
             </div>
             <div class="d-inline-flex">
-                <a href="{{ route('booking.createBooking') }}">
+                <!-- <a href="{{ route('booking.createBooking') }}">
                     <button type="button" class="btn btn-outline-dark mr-2">book</button>
-                </a>
+                </a> -->
                 <a href="{{ route('loginRegister') }}">
                     <button type="button" class="btn" style="border: none; font-size: 35px">
                         <i class="fa fa-user" aria-hidden="true"></i>

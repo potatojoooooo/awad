@@ -13,14 +13,11 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('userID');
             $table->date('date');
             $table->time('time');
-            $table->unsignedBigInteger('serviceID');
-            $table->string('name');
-            $table->string('phone');
+            $table->string('serviceID');
+            $table->unsignedBigInteger('userID');
             $table->foreign('userID')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('serviceID')->references('id')->on('services')->onDelete('cascade');
         });
     }
 

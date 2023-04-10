@@ -12,9 +12,12 @@ class BookingController extends Controller
 {
     public function getBookings()
     {
+        $user = Auth::user();
+        session(['user_id' => $user->id]);
         $bookings = DB::table('bookings')
-            ->join('services', 'bookings.serviceID', '=', 'services.id')
-            ->select('bookings.*', 'services.name')
+            ->join('users', 'bookings.userID', '=', 'users.id')
+            ->where('users.id', $user->id)
+            ->select('bookings.*', 'users.id')
             ->get();
         return view('booking.displayBooking', ['bookings' => $bookings]);
     }
@@ -69,15 +72,29 @@ class BookingController extends Controller
     protected function validateBooking(array $data)
     {
         return Validator::make($data, [
-            'date' => 'required | date',
-            'time' => 'required',
-            'serviceID' => 'required | integer',
-            'name' => 'required|max:2',
-            'phone' => 'required|max:2'
-        ], [
-            'name.required' => 'Name is required.',
-            'phone.required' => 'Phone is required.'
+            'date' => ['required'],
+            'time' => ['required'],
+            'serviceID' => ['required'],
         ]);
+    }
+
+    protected function createBooking(Request $req)
+    {
+        $req->validate([
+            'date' => 'required|after:today',
+            'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
+            'serviceID' => 'required',
+        ], [
+            'date.after' => 'The new date must be tommorrow or a future date.',
+        ]);
+
+        $booking = new Booking;
+        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $req->date . ' ' . $req->time . ':00');
+        $booking->date = $datetime;
+        $booking->time = $datetime;
+        $booking->serviceID = $req->serviceID;
+        $booking->save();
+        return redirect("displayBooking");
     }
 
 
