@@ -64,6 +64,16 @@ class BookingController extends Controller
         $booking->save();
         return redirect("displayBooking");
     }
+
+    public function deleteBooking($id)
+    {
+        $booking_id = Booking::find($id);
+        echo "$booking_id";
+        $booking_id -> delete();
+        return redirect("displayBooking")->with('success', 'Booking deleted successfully');
+    }
+
+
     // public function processForm(Request $request)
     // {
     //     $selectedOptions = $request->input('selectedOptions');
