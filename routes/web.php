@@ -18,6 +18,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfileController;
 
 //HomePage
 Route::get('/', function(){
@@ -60,6 +61,10 @@ Route::group(['middleware' => ['auth:web']], function () {
         return view('home');
     })->name('user.home');
 });
+
+
+//Profile
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 //Services
 Route::get('/services', [ServiceController::class, 'getServices'])->name('services');
