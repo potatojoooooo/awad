@@ -28,27 +28,34 @@
                     </thead>
                     <tbody>
                         @if(session()->has('user_id'))
-                            @if(isset($bookings) && count($bookings) > 0)
-                                @foreach($bookings as $booking)
-                                    @if($booking->userID == session('user_id'))
-                                    <tr>
-                                        <td>{{$booking -> id}}</td>
-                                        <td>{{$booking -> date}}</td>
-                                        <td>{{$booking -> time}}</td>
-                                        <td>{{$booking -> serviceID}}</td>
-                                        
-                                        <td>
-                                            <a href="{{ route('booking.updateBooking') }}">
-                                                <button type="button" class="btn btn-outline-dark mr-2">update</button>
-                                            </a>
-                                            <button type="button" class="btn btn-outline-dark mr-2">delete</button>
-                                        </td>
-                                    </tr>
-                                    @endif
+                        @if(isset($bookings) && count($bookings) > 0)
+                        @foreach($bookings as $booking)
+                        @if($booking->userID == session('user_id'))
+                        <tr>
+                            <td>{{$booking -> id}}</td>
+                            <td>{{$booking -> date}}</td>
+                            <td>{{$booking -> time}}</td>
+                            <td>
+                                @foreach ($booking->services as $service)
+                                {{ $service->name }}
+                                @if (!$loop->last)
+                                <br>
+                                @endif
                                 @endforeach
-                                @else
-                                <h4>Please register or log in to existing account to view bookings!</h4>
-                            @endif
+                            </td>
+
+                            <td>
+                                <a href="{{ route('booking.updateBooking') }}">
+                                    <button type="button" class="btn btn-outline-dark mr-2">update</button>
+                                </a>
+                                <button type="button" class="btn btn-outline-dark mr-2">delete</button>
+                            </td>
+                        </tr>
+                        @endif
+                        @endforeach
+                        @else
+                        <h4>Please register or log in to existing account to view bookings!</h4>
+                        @endif
                         @endif
                     </tbody>
                 </table>

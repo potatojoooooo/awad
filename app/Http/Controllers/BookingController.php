@@ -16,10 +16,10 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         session(['user_id' => $user->id]);
-        $bookings = DB::table('bookings')
-            ->where('bookings.userID', $user->id)
-            ->select('bookings.*')
+        $bookings = Booking::orderBy('id', 'asc')
+            ->with('services')
             ->get();
+        
         return view('booking.displayBooking', ['bookings' => $bookings]);
     }
 
