@@ -55,9 +55,12 @@ class BookingController extends Controller
 
     public function deleteBooking($id)
     {
-        $booking_id = Booking::find($id);
-        echo "$booking_id";
-        $booking_id -> delete();
+        $booking_id = Booking::find($id)
+                    -> delete();
+        $booking_id = DB::table('booking_services')
+                    -> where('booking_id','=',$id)
+
+                    -> delete();
         return redirect("displayBooking")->with('success', 'Booking deleted successfully');
     }
 
