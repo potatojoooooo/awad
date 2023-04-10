@@ -16,38 +16,38 @@
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
                 <h1>View bookings</h1>
-                @if(session()->has('user_id'))
-                @if(isset($bookings) && count($bookings) > 0)
-                @foreach($bookings as $booking)
-                @if($booking->userID == session('user_id'))
                 <table class="table mt-4">
                     <thead>
                         <tr>
                             <th>Booking ID</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Delete / Update</th>
+                            <th>Services</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        <tr>
-                            <td>{{$booking -> id}}</td>
-                            <td>{{$booking -> date}}</td>
-                            <td>{{$booking -> time}}</td>
-
-                            <td>
-                                <a href="{{ route('booking.updateBooking') }}">
-                                    <button type="button" class="btn btn-outline-dark mr-2">update</button>
-                                </a>
-                                <button type="button" class="btn btn-outline-dark mr-2">delete</button>
-                            </td>
-                        </tr>
-                        @endif
-                        @endforeach
-                        @else
-                        <h4>No booking made at the moment.</h4>
-                        @endif
+                        @if(session()->has('user_id'))
+                            @if(isset($bookings) && count($bookings) > 0)
+                                @foreach($bookings as $booking)
+                                    @if($booking->userID == session('user_id'))
+                                    <tr>
+                                        <td>{{$booking -> id}}</td>
+                                        <td>{{$booking -> date}}</td>
+                                        <td>{{$booking -> time}}</td>
+                                        
+                                        <td>
+                                            <a href="{{ route('booking.updateBooking') }}">
+                                                <button type="button" class="btn btn-outline-dark mr-2">update</button>
+                                            </a>
+                                            <button type="button" class="btn btn-outline-dark mr-2">delete</button>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
+                                @else
+                                    <h4>No booking made at the moment.</h4>
+                            @endif
                         @endif
                     </tbody>
                 </table>

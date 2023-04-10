@@ -70,12 +70,14 @@
 
                                                 <div class="form-outline mb-4">
                                                     <label for="serviceID" class="form-label">{{ __('Select Service ID') }}</label>
-                                                    <select id="serviceID" data-style="btn-default" class="selectpicker form-control @error('serviceID') is-invalid @enderror" multiple data-max-options="4">
-                                                        <option value="Service 1">Service 1</option>
-                                                        <option value="Service 2">Service 2</option>
-                                                        <option value="Service 3">Service 3</option>
-                                                        <option value="Service 4">Service 4</option>
-                                                    </select>
+                                                    <div class="form-group">
+                                                        <label for="services">Services</label>
+                                                        <select name="services[]" id="services" class="selectpicker form-control @error('serviceID') is-invalid @enderror" multiple data-max-options="4">
+                                                            @foreach($services as $service)
+                                                            <option value="{{ $service->id }}" {{ in_array($service->id, old('services', [])) ? 'selected' : '' }}>{{ $service->id }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                     @error('serviceID')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -94,13 +96,6 @@
                                                     });
                                                 </script>
 
-
-                                                <!-- <div>
-                                                    @if(isset($selectedOptions))
-                                                    Selected options: {{ implode(', ', $selectedOptions) }}
-                                                    @endif
-                                                </div> -->
-
                                                 <div class="text-center pt-1 mt-5 mb-5 pb-1">
                                                     <button class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit">
                                                         {{ __('Create') }}
@@ -114,24 +109,29 @@
                                         <h4 class="mt-3 mb-5 pb-1">Services</h4>
                                         <!-- <div style="border-bottom: 1px solid; width:50%;"></div> -->
                                     </div>
-                                    <div class="text-left">
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/haircut.jpg')}}" style="width: 99px; margin-right:5px;" alt="logo">
-                                            Service 1: Cut | include wash & styling
-                                        </div>
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/perm.png')}}" style="width: 106px;" alt="logo">
-                                            Service 2: Perm | include wash & styling
-                                        </div>
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/hairdye.jpg')}}" style="width: 110px;" alt="logo">
-                                            Service 3: Color | include wash & styling
-                                        </div>
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/treatment.jpg')}}" style="width: 110px;" alt="logo">
-                                            Service 4: Treatment | include wash & styling
-                                        </div>
-                                    </div>
+                                    @if(isset($services) && count($services) > 0)
+                                    <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
+                                    <ul class="list-group">
+                                        @foreach($services as $service)
+                                        <li class="">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between">
+                                                    <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
+                                                    <h4>Service {{$service -> id}}</h4>
+                                                    <h4>{{$service -> name}}</h4>
+
+
+                                                </div>
+                                                <!-- <a href="{{ route('booking.createBooking') }}">
+                                <button type="button" class="btn btn-outline-dark mr-2">book now</button>
+                            </a> -->
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    @else
+                                    <h4>No services available at the moment.</h4>
+                                    @endif
                                     <div class="text-left" style="font-size:13px;margin-top:40px; margin-left:6px; margin-right:6px;">
                                         * Appointment are limited to 6 people per day.
                                         Please come with your own mask. Please keep
