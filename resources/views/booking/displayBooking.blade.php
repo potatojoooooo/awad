@@ -16,13 +16,16 @@
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
                 <h1>View bookings</h1>
+                @if(session()->has('user_id'))
+                @if(isset($bookings) && count($bookings) > 0)
+                @foreach($bookings as $booking)
+                @if($booking->userID == session('user_id'))
                 <table class="table mt-4">
                     <thead>
                         <tr>
                             <th>Booking ID</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Services</th>
                             <th>Delete / Update</th>
                         </tr>
                     </thead>
