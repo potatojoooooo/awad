@@ -16,12 +16,6 @@ class Booking extends Model
         'date',
         'time',
         'serviceID',
-        'name',
-        'phone'
+        'userID'
     ];
-
-    public function service()
-    {
-        return $this->belongsTo(Service::class);
-    }
 }
