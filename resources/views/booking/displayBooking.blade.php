@@ -46,7 +46,7 @@
                                     @endif
                                 @endforeach
                                 @else
-                                <h4>No booking made at the moment.</h4>
+                                <h4>Please register or log in to existing account to view bookings!</h4>
                             @endif
                         @endif
                     </tbody>
