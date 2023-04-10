@@ -81,6 +81,10 @@ Route::view("updateBooking","booking.updateBooking")->name('booking.updateBookin
 Route::get("updateBooking/{id}",[BookingController::class,'ShowUpdate']);
 Route::post("updateBooking/{id}",[BookingController::class,'updateBooking']);
 
+//Delete booking
+Route::get('deleteBooking/{id}',[BookingController::class,'deleteBooking'])->name('booking.deleteBooking');
+
+
 //About us
 Route::view("aboutus","aboutUs")->name('aboutus');
 
