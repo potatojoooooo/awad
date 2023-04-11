@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 
@@ -21,6 +22,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 //HomePage
 Route::get('/', function () {
@@ -42,7 +44,7 @@ Route::get('/login/user', [LoginController::class, 'showUserLoginForm'])->name('
 Route::post('/login/user', [LoginController::class, 'userLogin']);
 
 //Show admin register form
-Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm']);
+Route::get('/register/admin', [RegisterController::class, 'showAdminRegisterForm'])->name('register.admin');
 //Post admin register details
 Route::post('/register/admin', [RegisterController::class, 'createAdmin']);
 
@@ -107,3 +109,35 @@ Route::post('/delete/user/profile', [ProfileController::class, 'deleteUser'])->n
 
 //Delete admin profile
 Route::post('/delete/admin/profile', [ProfileController::class, 'deleteAdmin'])->name('delete.admin');
+
+//User Service Booking policy
+Gate::policy(User::class, UserModelPolicy::class);
+Gate::policy(Service::class, ServiceModelPolicy::class);
+Gate::policy(Booking::class, BookingModelPolicy::class);
+
+Route::middleware(['auth'])->group(function () {
+    // User routes
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    // Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    // Route::put('/users/{user}', [UserController::class, 'update']);
+    // Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+    // Service routes
+    Route::get('/service', [ServiceController::class, 'index'])->name('services.index');
+    // Route::get('/services/create', [ServiceController::class, 'create']);
+    // Route::post('/services', [ServiceController::class, 'store']);
+    // Route::get('/services', [ServiceController::class, 'show']);
+    // Route::get('/services/{service}/edit', [ServiceController::class, 'edit']);
+    // Route::put('/services/{service}', [ServiceController::class, 'update']);
+    // Route::delete('/services/{service}', [ServiceController::class, 'destroy']);
+
+    // Booking routes
+    Route::get('/showBooking', [BookingController::class, 'index'])->name('bookings.index');
+    // Route::get('/createBooking', [BookingController::class, 'create']);
+    // Route::post('/createBooking', [BookingController::class, 'store']);
+    // Route::get('/displayBooking', [BookingController::class, 'show']);
+    // Route::get('/updateBooking/{id}', [BookingController::class, 'edit']);
+    // Route::put('/updateBooking/{id}', [BookingController::class, 'update']);
+    // Route::delete('/deleteBooking/{id}', [BookingController::class, 'destroy']);
+});
+

@@ -30,24 +30,42 @@
             </div>
 
         </div>
-        <div class="nav-bar ">
-            <ul id="nav" class="nav d-flex justify-content-between mt-5">
-                <li><a class="btn btn-link text-dark" href="{{ route('home') }}">
-                        <h4>home</h4>
-                    </a></li>
-                <li><a class="btn btn-link text-dark" href="{{ route('services') }}">
-                        <h4>services</h4>
-                    </a></li>
-                <li><a class="btn btn-link text-dark" href="{{ route('booking.displayBooking') }}">
-                        <h4>bookings</h4>
-                    </a></li>
+        <ul id="nav" class="nav d-flex justify-content-between mt-5">
+            @guest
+            <li><a class="btn btn-link text-dark" href="{{ route('home') }}">
+                    <h4>home</h4>
+                </a></li>
+            <li><a class="btn btn-link text-dark" href="{{ route('services') }}">
+                    <h4>services</h4>
+                </a></li>
+            <li><a class="btn btn-link text-dark" href="{{ route('booking.displayBooking') }}">
+                    <h4>bookings</h4>
+                </a></li>
+            <li><a class="btn btn-link text-dark" href="{{ route('aboutus') }}">
+                    <h4>about us</h4>
+                </a></li>
+            <li><a class="btn btn-link text-dark" href="{{ route('contactus') }}">
+                    <h4>contact us</h4>
+                </a></li>
+            @endguest
+            @auth
+            <li><a class="btn btn-link text-dark" href="{{ route('home') }}">
+                    <h4>home</h4>
+                </a></li>
+            <li><a class="btn btn-link text-dark" href="{{ route('services') }}">
+                    <h4>services</h4>
+                </a></li>
+            <li><a class="btn btn-link text-dark" href="{{ route('booking.displayBooking') }}">
+                    <h4>bookings</h4>
+                </a></li>
                 <li><a class="btn btn-link text-dark" href="{{ route('aboutus') }}">
-                        <h4>about us</h4>
-                    </a></li>
-                <li><a class="btn btn-link text-dark" href="{{ route('contactus') }}">
-                        <h4>contact us</h4>
-                    </a></li>
-            </ul>
-        </div>
+                    <h4>about us</h4>
+                </a></li>
+            <li><a class="btn btn-link text-dark" href="{{ route('contactus') }}">
+                    <h4>contact us</h4>
+                </a></li>
+            @endauth
+        </ul>
+
     </div>
 </div>
