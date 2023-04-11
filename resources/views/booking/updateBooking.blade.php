@@ -30,19 +30,17 @@
                                 <div class="col-lg-6">
                                     <div class="card-header mb-1"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Your Appointment') }}</div>
                                     <div class="card-body p-md-0 mx-md-5">
-                                        <div class="text-center">
-                                            <img src="{{URL::asset('/image/logo.png')}}" style="width: 185px;" alt="logo">
+                                        <div class="text-center mt-4">
+                                            <img src="{{URL::asset('/image/about-us.jpg')}}" style="width: 185px;" alt="logo">
                                         </div>
-                                        <div style="text-align:center;">
-                                            <h4>jo salone</h4>
-                                        </div>
+                                        
                                         @isset($url)
                                         <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                             @else
                                             <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                                 @endisset
                                                 @csrf
-                                                <div class="form-outline mb-4 mt-5">
+                                                <div class="form-outline mb-4 mt-3">
                                                     <input type="hidden" name="id" value="{{$booking['id']}}">
                                                     <label for="date" class="form-label">{{ __('Select New Date') }}</label>
 
@@ -102,37 +100,32 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 px-0 d-none d-sm-block">
-                                    <div class="text-center">
-                                        <h4 class="mt-3 mb-5 pb-1">Services</h4>
-                                        <!-- <div style="border-bottom: 1px solid; width:50%;"></div> -->
-                                    </div>
+                                <div class="text-center">
+                                        <h4 class="mt-3 mb-3 pb-1">Services</h4>
+                                    
                                     @if(isset($services) && count($services) > 0)
-                                    <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
                                     <ul class="list-group">
-                                        @foreach($services as $service)
-                                        <li class="">
-                                            <div class="d-flex justify-content-between">
-                                                <div class="d-flex justify-content-between">
+                                    @foreach($services as $service)
+                                            <div class="d-flex mt-3">
+                                                <div>
                                                     <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
-                                                    <h4>Service {{$service -> id}}</h4>
-                                                    <h4>{{$service -> name}}</h4>
-
-
                                                 </div>
-                                                <!-- <a href="{{ route('booking.createBooking') }}">
-                                <button type="button" class="btn btn-outline-dark mr-2">book now</button>
-                            </a> -->
+                                                <div class="ml-4 mt-3 text-left" >
+                                                    <h5>Service {{$service -> id}}</h5>
+                                                    <h6>{{$service -> name}}</h6>
+                                                </div>
                                             </div>
-                                        </li>
                                         @endforeach
                                     </ul>
                                     @else
                                     <h4>No services available at the moment.</h4>
-                                    @endif                             <div class="text-left" style="font-size:13px;margin-top:40px; margin-left:6px; margin-right:6px;">
-                                        * Appointment are limited to 6 people per day.
+                                    @endif
+                                    </div>
+                                    <div class="m-4">
+                                        <h6>* Appointment are limited to 6 people per day. <br>
                                         Please come with your own mask. Please keep
                                         social distancing. Please do not engage verbally
-                                        with our assitants or ask them to get their mask off
+                                        with our assitants or ask them to get their mask off.</h6>
                                     </div>
                                 </div>
                             </div>
