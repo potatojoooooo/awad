@@ -10,16 +10,17 @@
     <link rel="icon" type="image/x-icon" href="{{URL::asset('/image/logo.png')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
-    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js"></script>
+
 </head>
 
 <body>
-    
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-5 h-100">
@@ -66,7 +67,6 @@
                                                 <div class="form-outline mb-4">
                                                     <label for="serviceID" class="form-label">{{ __('Select Service ID') }}</label>
                                                     <div class="form-group">
-                                                        <label for="services">Services</label>
                                                         <select name="services[]" id="services" class="selectpicker form-control @error('serviceID') is-invalid @enderror" multiple data-max-options="4">
                                                             @foreach($services as $service)
                                                             <option value="{{ $service->id }}" {{ in_array($service->id, old('services', [])) ? 'selected' : '' }}>{{ $service->id }}</option>
@@ -100,6 +100,14 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6 px-0 d-none d-sm-block">
+                                    <div class="text-center">
+                                        <h4 class="mt-3 mb-3 pb-1">Services</h4>
+
+                                        @if(isset($services) && count($services) > 0)
+                                        <ul class="list-group">
+                                            @foreach($services as $service)
+                                            <div class="d-flex mt-3">
+                                                <div>
                                 <div class="text-center">
                                         <h4 class="mt-3 mb-3 pb-1">Services</h4>
                                     
@@ -110,22 +118,26 @@
                                                 <div>
                                                     <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
                                                 </div>
+                                                <div class="ml-4 mt-3 text-left">
+                                                    <h5>Service {{$service -> id}}</h5>
+                                                    <h6>{{$service -> name}}</h6>
+                                                </div>
                                                 <div class="ml-4 mt-3 text-left" >
                                                     <h5>Service {{$service -> id}}</h5>
                                                     <h6>{{$service -> name}}</h6>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                    </ul>
-                                    @else
-                                    <h4>No services available at the moment.</h4>
-                                    @endif
+                                            @endforeach
+                                        </ul>
+                                        @else
+                                        <h4>No services available at the moment.</h4>
+                                        @endif
                                     </div>
                                     <div class="m-4">
                                         <h6>* Appointment are limited to 6 people per day. <br>
-                                        Please come with your own mask. Please keep
-                                        social distancing. Please do not engage verbally
-                                        with our assitants or ask them to get their mask off.</h6>
+                                            Please come with your own mask. Please keep
+                                            social distancing. Please do not engage verbally
+                                            with our assitants or ask them to get their mask off.</h6>
                                     </div>
                                 </div>
                             </div>

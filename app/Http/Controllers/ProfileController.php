@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -41,4 +43,33 @@ class ProfileController extends Controller
             ->get();
         return view('profile', ['admin' => $admin]);
     }
+
+    public function deleteUser(Request $request) {
+        if ($request->isMethod('post')) {
+            $user_id = $request->session()->get('user_id');
+    
+            $user = User::find($user_id);
+            $user->delete();
+    
+            Auth::logout();
+            $request->session()->flush();
+    
+            return redirect('/')->with('deleteUser', 'User account deleted.');
+        }
+    }    
+    
+    public function deleteAdmin(Request $request) {
+        if ($request->isMethod('post')) {
+            $admin_id = $request->session()->get('admin_id');
+            
+            $admin = Admin::find($admin_id);
+            $admin->delete();
+                
+            Auth::logout();
+            $request->session()->flush();
+                
+            return redirect('/')->with('deleteAdmin', 'Admin account deleted.');
+        }
+    }
+      
 }

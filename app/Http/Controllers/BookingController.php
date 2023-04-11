@@ -14,13 +14,9 @@ class BookingController extends Controller
 {
     public function getBookings()
     {
-        if (Auth::guard('admin')->check()) {
-            $bookings = Booking::orderBy('id', 'asc')
-                ->with('services')
-                ->get();
-            return view('booking.displayBooking', ['bookings' => $bookings]);
-        } elseif (Auth::guard('web')->check()) {
+        if (Auth::guard('web')->check()) {
             $user = Auth::user();
+            $bookings = Booking::where('userID', $user->id)
             $bookings = Booking::where('bookings.userID', $user->id)
                 ->orderBy('id', 'asc')
                 ->with('services')
@@ -30,6 +26,7 @@ class BookingController extends Controller
             return redirect()->route('login');
         }
     }
+    
     
     
 

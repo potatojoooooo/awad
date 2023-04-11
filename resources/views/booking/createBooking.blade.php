@@ -133,5 +133,9 @@
 </body>
 <x-footer></x-footer>
 
+<<<<<<< HEAD
+</html>
+=======
 </html>
 
+>>>>>>> 2d47f021d0f7e6bccd5cd77e264e038551050896
