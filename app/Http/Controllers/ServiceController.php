@@ -13,8 +13,8 @@ class ServiceController extends Controller
         // $services = DB::table('services')->get();
         // return view('services')->with('services', $services);
 
-        $services = Service::paginate(5);
-        return view('services', ['services' => $services]);
+        $services=Service::paginate(5);
+        return view('services.displayServices', ['services'=>$services]);
     }
 
     public function index()
@@ -69,5 +69,6 @@ class ServiceController extends Controller
         $service->delete();
 
         return redirect('/services');
+       
     }
 }
