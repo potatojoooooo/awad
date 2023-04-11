@@ -23,6 +23,9 @@
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <div>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                            <div>
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -51,49 +54,23 @@
                                             </td>
                                             <td>
                                                 <h4>RM {{$service->price}}</h4>
+                                                @guest
                                                 <a href="{{ route('booking.createBooking') }}">
                                                     <button type="button" class="btn btn-outline-dark mr-2">Book Now</button>
                                                 </a>
-                                                <div>
-                                                    <a href="{{ route('services.updateService', $service->id)}}">
-                                                        <button type="button" class="btn btn-outline-dark mr-2">update</button>
-                                                    </a>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-bookingid="{{ $service->id }}">delete</button>
+                                                @else
+                                                @if(session()->get('admin_id'))
+                                                <a href="{{ route('services.updateService', $service->id) }}">
+                                                    <button type="button" class="btn btn-outline-dark mr-2">Update</button>
+                                                </a>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-serviceid="{{ $service->id }}">Delete</button>
+                                                @else
+                                                <a href="{{ route('booking.createBooking') }}">
+                                                    <button type="button" class="btn btn-outline-dark mr-2">Book Now</button>
+                                                </a>
+                                                @endif
+                                                @endguest
 
-                                                    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Confirm Delete?</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <p>Are you sure you want to delete booking <span id="bookingId"></span>? </p>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <form id="deleteForm" action="{{ route('services.deleteService', $service->id)}}">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                    </form>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <script>
-                                                        $('#deleteModal').on('show.bs.modal', function(event) {
-                                                            var button = $(event.relatedTarget);
-                                                            var serviceId = button.data('serviceid');
-                                                            var modal = $(this);
-                                                            modal.find('#serviceId').text(serviceId);
-                                                            modal.find('#deleteForm').attr('action', "{{ url('deleteService') }}/" + serviceId);
-                                                        });
-                                                    </script>
-                                                </div>
                                             </td>
                                         </tr>
                                         @endforeach

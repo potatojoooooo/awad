@@ -84,7 +84,7 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        return redirect()->intended('login/admin');
+        return redirect()->intended('login/admin')->with('adminSuccess', 'Admin created successfully');
     }
     protected function createUser(Request $request)
     {
@@ -95,6 +95,6 @@ class RegisterController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
-        return redirect()->intended('login/user');
+        return redirect()->intended('login/user')->with('userSuccess', 'User created successfully');
     }
 }

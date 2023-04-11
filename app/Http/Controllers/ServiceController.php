@@ -17,12 +17,6 @@ class ServiceController extends Controller
         return view('services.displayServices', ['services'=>$services]);
     }
 
-    public function index()
-    {
-        $services = Service::paginate(5);
-        return view('services.index', compact('services'));
-    }
-
     public function create()
     {
         return view('services.create');

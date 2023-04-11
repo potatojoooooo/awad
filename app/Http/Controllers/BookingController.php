@@ -51,7 +51,7 @@ class BookingController extends Controller
         $services = Service::whereIn('id', $validatedData['services'])->get();
         $booking->services()->sync($services);
         $booking->save();
-        return redirect()->route('booking.displayBooking');
+        return redirect()->route('booking.displayBooking')->with('updateSuccess', 'Booking updated successfully');
     }
 
     public function deleteBooking($id)
@@ -62,7 +62,7 @@ class BookingController extends Controller
             ->where('booking_id', '=', $id)
 
             ->delete();
-        return redirect("displayBooking")->with('success', 'Booking deleted successfully');
+        return redirect("displayBooking")->with('deleteSuccess', 'Booking deleted successfully');
     }
 
 
@@ -117,7 +117,7 @@ class BookingController extends Controller
         $booking->services()->attach($services);
 
         // Redirect the user to the booking details page
-        return redirect()->route('booking.displayBooking');
+        return redirect()->route('booking.displayBooking')->with('bookSuccess', 'Booking has been made.');;
     }
 
     protected function getServices()

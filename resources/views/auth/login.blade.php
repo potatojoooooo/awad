@@ -44,7 +44,11 @@
                                 <a class="nav-link" id="tab-adminlogin" data-mdb-toggle="pill" href="{{ route('login.admin') }}" role="tab" aria-controls="pills-register" aria-selected="false">Admin Login</a>
                             </li>
                         </ul>
-
+                        @if(session('adminSuccess'))
+                        <div class="alert alert-success">{{ session('adminSuccess') }}</div>
+                        @elseif(session('userSuccess'))
+                        <div class="alert alert-success">{{ session('userSuccess') }}</div>
+                        @endif
                         <div class="card text-black" style="border-radius:10px">
                             <div class="row g-0">
                                 <div class="col-lg-6 w-100">
@@ -106,4 +110,5 @@
     </div>
 </body>
 <x-footer></x-footer>
+
 </html>

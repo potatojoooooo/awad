@@ -116,12 +116,6 @@ Gate::policy(Service::class, ServiceModelPolicy::class);
 Gate::policy(Booking::class, BookingModelPolicy::class);
 
 Route::middleware(['auth'])->group(function () {
-    // User routes
-    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
-    // Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    // Route::put('/users/{user}', [UserController::class, 'update']);
-    // Route::delete('/users/{user}', [UserController::class, 'destroy']);
-
     // Service routes
     Route::get('/service', [ServiceController::class, 'index'])->name('services.index');
     // Route::get('/services/create', [ServiceController::class, 'create']);
@@ -140,4 +134,14 @@ Route::middleware(['auth'])->group(function () {
     // Route::put('/updateBooking/{id}', [BookingController::class, 'update']);
     // Route::delete('/deleteBooking/{id}', [BookingController::class, 'destroy']);
 });
+
+//Display services
+Route::get('/service', [ServiceController::class, 'getServices'])->name('services.displayServices');
+//Create services
+Route::post("createService", [ServiceController::class, 'createService']);
+//Update service
+Route::get("updateService/{id}", [ServiceController::class, 'ShowUpdate']);
+Route::post("updateService/{id}", [ServiceController::class, 'updateService'])->name('services.updateService');
+//Delete service
+Route::get('deleteService/{id}', [ServiceController::class, 'deleteService'])->name('services.deleteService');
 
