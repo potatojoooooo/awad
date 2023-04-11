@@ -51,7 +51,7 @@
                                     <div class="card-header"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Login') }}</div>
                                     <div class="card-body p-md-0 mx-md-4">
                                         <div class="text-center">
-                                            <img src="{{URL::asset('/image/logo.png')}}" style="width: 185px;" alt="logo">
+                                            <img src="{{URL::asset('/image/about-us.jpg')}}" style="width: 185px;" alt="logo">
                                         </div>
                                         @isset($url)
                                         <form method="POST" action='{{ url("login/$url") }}' aria-label="{{ __('Login') }}">
@@ -105,5 +105,5 @@
         </div>
     </div>
 </body>
-
+<x-footer></x-footer>
 </html>
