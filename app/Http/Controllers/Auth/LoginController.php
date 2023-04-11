@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\Admin;
 use App\Models\User;
 
@@ -82,6 +83,7 @@ class LoginController extends Controller
 
     public function logout()
     {
+        Session::flush();
         Auth::logout(); // log out the user
         return redirect()->route('home')->with('message', 'You have been logged out.'); // redirect to home route
     }
