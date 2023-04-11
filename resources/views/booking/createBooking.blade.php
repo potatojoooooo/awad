@@ -115,10 +115,10 @@
                                     @endif
                                     </div>
                                     <div class="m-4">
-                                        <h6>* Appointment are limited to 6 people per day.
-                                        Please come with your own mask.Please keep
-                                        social distancing.Please do not engage verbally
-                                        with our assitants or ask them to get their mask off</h6>
+                                        <h6>* Appointment are limited to 6 people per day. <br>
+                                        Please come with your own mask. Please keep
+                                        social distancing. Please do not engage verbally
+                                        with our assitants or ask them to get their mask off.</h6>
                                     </div>
                                 </div>
                             </div>
