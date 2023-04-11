@@ -34,7 +34,7 @@
                                         <div class="text-center mt-4">
                                             <img src="{{URL::asset('/image/about-us.jpg')}}" style="width: 185px;" alt="logo">
                                         </div>
-                                        
+
                                         @isset($url)
                                         <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                             @else
@@ -108,21 +108,9 @@
                                             @foreach($services as $service)
                                             <div class="d-flex mt-3">
                                                 <div>
-                                <div class="text-center">
-                                        <h4 class="mt-3 mb-3 pb-1">Services</h4>
-                                    
-                                    @if(isset($services) && count($services) > 0)
-                                    <ul class="list-group">
-                                    @foreach($services as $service)
-                                            <div class="d-flex mt-3">
-                                                <div>
                                                     <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
                                                 </div>
                                                 <div class="ml-4 mt-3 text-left">
-                                                    <h5>Service {{$service -> id}}</h5>
-                                                    <h6>{{$service -> name}}</h6>
-                                                </div>
-                                                <div class="ml-4 mt-3 text-left" >
                                                     <h5>Service {{$service -> id}}</h5>
                                                     <h6>{{$service -> name}}</h6>
                                                 </div>
@@ -144,9 +132,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

@@ -29,7 +29,7 @@
             <div class="container mt-5 h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-xl-10">
-                    <div class="card text-black" style="border-radius:10px;">
+                        <div class="card text-black" style="border-radius:10px;">
                             <div class="row g-0">
                                 <div class="col-lg-6">
                                     <div class="card-header mb-1"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Make An Appointment') }}</div>
@@ -95,30 +95,30 @@
                                 <div class="col-sm-6 px-0 d-none d-sm-block">
                                     <div class="text-center">
                                         <h4 class="mt-3 mb-3 pb-1">Services</h4>
-                                    
-                                    @if(isset($services) && count($services) > 0)
-                                    <ul class="list-group">
-                                    @foreach($services as $service)
+
+                                        @if(isset($services) && count($services) > 0)
+                                        <ul class="list-group">
+                                            @foreach($services as $service)
                                             <div class="d-flex mt-3">
                                                 <div>
                                                     <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
                                                 </div>
-                                                <div class="ml-4 mt-3 text-left" >
+                                                <div class="ml-4 mt-3 text-left">
                                                     <h5>Service {{$service -> id}}</h5>
                                                     <h6>{{$service -> name}}</h6>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                    </ul>
-                                    @else
-                                    <h4>No services available at the moment.</h4>
-                                    @endif
+                                            @endforeach
+                                        </ul>
+                                        @else
+                                        <h4>No services available at the moment.</h4>
+                                        @endif
                                     </div>
                                     <div class="m-4">
                                         <h6>* Appointment are limited to 6 people per day. <br>
-                                        Please come with your own mask. Please keep
-                                        social distancing. Please do not engage verbally
-                                        with our assitants or ask them to get their mask off.</h6>
+                                            Please come with your own mask. Please keep
+                                            social distancing. Please do not engage verbally
+                                            with our assitants or ask them to get their mask off.</h6>
                                     </div>
                                 </div>
                             </div>
@@ -133,9 +133,4 @@
 </body>
 <x-footer></x-footer>
 
-<<<<<<< HEAD
 </html>
-=======
-</html>
-
->>>>>>> 2d47f021d0f7e6bccd5cd77e264e038551050896
