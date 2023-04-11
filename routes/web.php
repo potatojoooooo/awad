@@ -62,9 +62,15 @@ Route::group(['middleware' => ['auth:web']], function () {
     })->name('user.home');
 });
 
+// Routes for user profile
+Route::middleware(['auth'])->group(function () {
+    Route::get('/user/profile', [ProfileController::class, 'getUser'])->name('profile.user');
+});
 
-//Profile
-Route::get('/profile', [ProfileController::class, 'getUser'])->name('profile');
+// Routes for admin profile
+Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/admin/profile', [ProfileController::class, 'getAdmin'])->name('profile.admin');
+});
 
 //Services
 Route::get('/services', [ServiceController::class, 'getServices'])->name('services');
