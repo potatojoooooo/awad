@@ -26,7 +26,6 @@ class BookingController extends Controller
     public function showUpdate($id)
     {
         $booking = Booking::find($id);
-        $booking->time = Carbon::parse($booking->time)->format('H:i');
         $services = Service::all();
         return view("booking.updateBooking", ['booking'=>$booking, 'services'=>$services]);
     }

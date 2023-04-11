@@ -47,7 +47,7 @@
                             </td>
 
                             <td>
-                                <a href={{"updateBooking/".$booking->id}}>
+                                <a href="{{ route('booking.updateBooking', $booking->id)}}">
                                     <button type="button" class="btn btn-outline-dark mr-2">update</button>
                                 </a>
 
