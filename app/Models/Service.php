@@ -14,11 +14,12 @@ class Service extends Model
     protected $fillable = [
         'name',
         'price',
-        'description'
+        'description',
+        'image'
     ];
 
     public function bookings()
     {
-        return $this->hasMany(Booking::class);
+        return $this->belongsToMany(Booking::class, 'booking_services');
     }
 }

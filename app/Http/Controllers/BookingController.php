@@ -16,16 +16,15 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         session(['user_id' => $user->id]);
-        $bookings = DB::table('bookings')
-            ->join('users', 'bookings.userID', '=', 'users.id')
-            ->where('users.id', $user->id)
-            ->select('bookings.*', 'users.id')
+        $bookings = Booking::orderBy('id', 'asc')
+            ->with('services')
             ->get();
+        
         return view('booking.displayBooking', ['bookings' => $bookings]);
     }
 
     public function showUpdate($id)
-    {   
+    {
         $booking = Booking::find($id);
         $booking->time = Carbon::parse($booking->time)->format('H:i');
         $services = Service::all();
@@ -35,7 +34,7 @@ class BookingController extends Controller
     public function updateBooking(Request $req)
     {
         $req->validate([
-            'date' => 'required|after:today', 
+            'date' => 'required|after:today',
             'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
             'serviceID' => 'required',     
         ], [
@@ -48,9 +47,21 @@ class BookingController extends Controller
         $booking->time = Carbon::createFromFormat('H:i:s', $req->time.':00');
         $booking->serviceID = $req->serviceID;
         $booking->save();
-        // return redirect("displayBooking");
-        dd($req->all());
+        return redirect("displayBooking");
     }
+
+    public function deleteBooking($id)
+    {
+        $booking_id = Booking::find($id)
+                    -> delete();
+        $booking_id = DB::table('booking_services')
+                    -> where('booking_id','=',$id)
+
+                    -> delete();
+        return redirect("displayBooking")->with('success', 'Booking deleted successfully');
+    }
+
+
     // public function processForm(Request $request)
     // {
     //     $selectedOptions = $request->input('selectedOptions');
@@ -80,25 +91,38 @@ class BookingController extends Controller
 
     protected function createBooking(Request $req)
     {
-        $req->validate([
-            'date' => 'required|after:today',
-            'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
-            'serviceID' => 'required',
-        ], [
-            'date.after' => 'The new date must be tommorrow or a future date.',
+        // Validate the user input
+        $validatedData = $req->validate([
+            'date' => 'required|date|after:today',
+            'time' => 'required|after:08:59|before:17:01',
+            'services' => 'required|array',
+            'services.*' => 'exists:services,id',
         ]);
-
-        $booking = new Booking;
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $req->date . ' ' . $req->time . ':00');
-        $booking->date = $datetime;
-        $booking->time = $datetime;
-        $booking->serviceID = $req->serviceID;
+        $user = Auth::user();
+        session(['user_id' => $user->id]);
+        // Create a new booking record and retrieve its id
+        $booking = new Booking();
+        $booking->userID = $user->id;
+        $booking->date = $validatedData['date'];
+        $booking->time = $validatedData['time'];
         $booking->save();
-        return redirect("displayBooking");
+        $bookingId = $booking->id;
+
+        // Associate the selected services with the new booking
+        $services = Service::whereIn('id', $validatedData['services'])->get();
+        $booking->services()->attach($services);
+
+        // Redirect the user to the booking details page
+        return redirect()->route('booking.displayBooking');
     }
 
 
-  
+
+    protected function getServices()
+    {
+        $services = DB::table('services')->get();
+        return view('booking.createBooking', ['services' => $services]);
+    }
 }
 
 
