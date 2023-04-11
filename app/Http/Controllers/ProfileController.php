@@ -27,14 +27,18 @@ class ProfileController extends Controller
             ->get();
         return view('profile', ['user' => $user]);
     }
-
     /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function getAdmin()
     {
-        return view('profile');
+        $admin = Auth::guard('admin')->user();
+        session(['admin_id' => $admin->id]);
+        $admin = DB::table("admins")
+            ->where('admins.id', $admin->id)
+            ->get();
+        return view('profile', ['admin' => $admin]);
     }
 }

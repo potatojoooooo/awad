@@ -9,13 +9,13 @@
             </div>
             <div class="d-inline-flex">
                 @if(session()->has('user_id'))
-                <a href="{{ route('profile') }}">
+                <a href="{{ route('profile.user') }}">
                     <button type="button" class="btn" style="border: none; font-size: 35px">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </button>
                 </a>
                 @elseif(session()->has('admin_id'))
-                <a href="{{ route('profile') }}">
+                <a href="{{ route('profile.admin') }}">
                     <button type="button" class="btn" style="border: none; font-size: 35px">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </button>
@@ -38,7 +38,7 @@
                 <li><a class="btn btn-link text-dark" href="{{ route('services') }}">
                         <h4>services</h4>
                     </a></li>
-                <li><a class="btn btn-link text-dark" href="{{ route('booking.createBooking') }}">
+                <li><a class="btn btn-link text-dark" href="{{ Auth::user() ? route('booking.createBooking') : route('booking.displayBooking') }}">
                         <h4>bookings</h4>
                     </a></li>
                 <li><a class="btn btn-link text-dark" href="{{ route('aboutus') }}">
