@@ -94,12 +94,12 @@
                                 </div>
                                 <div class="col-sm-6 px-0 d-none d-sm-block">
                                     <div class="text-center">
-                                        <h4 class="mt-3 mb-5 pb-1">Services</h4>
+                                        <h4 class="mt-3 mb-3 pb-1">Services</h4>
                                     
                                     @if(isset($services) && count($services) > 0)
                                     <ul class="list-group">
                                     @foreach($services as $service)
-                                            <div class="d-flex">
+                                            <div class="d-flex mt-3">
                                                 <div>
                                                     <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
                                                 </div>
