@@ -88,7 +88,7 @@
                         @endif
                         @endforeach
                         @else
-                        <h4>No booking made at the moment.</h4>
+                        <h4>No bookings available!</h4>
                         @endif
                         @endif
 
