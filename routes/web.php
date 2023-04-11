@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -88,7 +90,7 @@ Route::get("updateBooking/{id}", [BookingController::class, 'ShowUpdate']);
 Route::post("updateBooking/{id}", [BookingController::class, 'updateBooking'])->name('booking.updateBooking');
 
 //Delete booking
-Route::get('deleteBooking/{id}',[BookingController::class,'deleteBooking'])->name('booking.deleteBooking');
+Route::get('deleteBooking/{id}', [BookingController::class, 'deleteBooking'])->name('booking.deleteBooking');
 
 
 //About us
@@ -99,3 +101,9 @@ Route::view("contactus", "contactUs")->name('contactus');
 
 //Log out function
 Route::get('logout', [LoginController::class, 'logout']);
+
+//Delete user profile
+Route::post('/delete/user/profile', [ProfileController::class, 'deleteUser'])->name('delete.user');
+
+//Delete admin profile
+Route::post('/delete/admin/profile', [ProfileController::class, 'deleteAdmin'])->name('delete.admin');

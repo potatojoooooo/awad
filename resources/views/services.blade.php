@@ -19,21 +19,49 @@
                 @if(isset($services) && count($services) > 0)
                 <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
                 <ul class="list-group">
-                    @foreach($services as $service)
+
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h4>{{$service -> name}}</h4>
-                                <h6>RM {{$service -> price}}</h6>
-                                <h6>{{$service -> description}}</h6>
-                                <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 30%">
+                                                <h4>Service</h4>
+                                            </th>
+                                            <th style="width: 50%">
+                                                <h4>Description</h4>
+                                            </th>
+                                            <th style="width: 20%">
+                                                <h4>Price</h4>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    @foreach($services as $service)
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                <h5>{{$service->name}}</h5>
+                                                <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
+
+                                            </td>
+                                            <td class="service-description">
+                                                <h6>{{$service->description}}</h6>
+                                            </td>
+                                            <td>
+                                                <h4>RM {{$service->price}}</h4>
+                                                <a href="{{ route('booking.createBooking') }}">
+                                                    <button type="button" class="btn btn-outline-dark mr-2">Book Now</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- <a href="{{ route('booking.createBooking') }}">
-                                <button type="button" class="btn btn-outline-dark mr-2">book now</button>
-                            </a> -->
                         </div>
                     </li>
-                    @endforeach
                 </ul>
                 @else
                 <h4>No services available at the moment.</h4>
@@ -44,4 +72,5 @@
     </div>
 </body>
 <x-footer></x-footer>
+
 </html>

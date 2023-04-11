@@ -38,7 +38,7 @@
                 <li><a class="btn btn-link text-dark" href="{{ route('services') }}">
                         <h4>services</h4>
                     </a></li>
-                <li><a class="btn btn-link text-dark" href="{{ Auth::user() ? route('booking.createBooking') : route('booking.displayBooking') }}">
+                <li><a class="btn btn-link text-dark" href="{{ route('booking.displayBooking') }}">
                         <h4>bookings</h4>
                     </a></li>
                 <li><a class="btn btn-link text-dark" href="{{ route('aboutus') }}">
