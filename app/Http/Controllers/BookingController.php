@@ -17,6 +17,8 @@ class BookingController extends Controller
         if (Auth::guard('web')->check()) {
             $user = Auth::user();
             $bookings = Booking::where('userID', $user->id)
+            $bookings = Booking::where('bookings.userID', $user->id)
+                ->orderBy('id', 'asc')
                 ->with('services')
                 ->get();
             return view('booking.displayBooking', ['bookings' => $bookings]);
