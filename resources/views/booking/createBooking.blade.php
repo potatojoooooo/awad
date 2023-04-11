@@ -34,7 +34,7 @@
                                 <div class="col-lg-6">
                                     <div class="card-header mb-1"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Make An Appointment') }}</div>
                                     <div class="card-body p-md-0 mx-md-5">
-                                        <div class="text-center">
+                                        <div class="text-center mt-4">
                                             <img src="{{URL::asset('/image/about-us.jpg')}}" style="width: 185px;" alt="logo">
                                         </div>
 
@@ -44,7 +44,7 @@
                                             <form method="POST" action="createBooking" aria-label="{{ __('CreateBooking') }}">
                                                 @endisset
                                                 @csrf
-                                                <div class="form-outline mb-4 mt-5">
+                                                <div class="form-outline mb-4 mt-3">
 
                                                     <label for="date" class="form-label">{{ __('Select A Date') }}</label>
 
@@ -84,17 +84,6 @@
                                                     @enderror
                                                 </div>
 
-                                                <script>
-                                                    // Get the select element
-                                                    const selectElement = document.getElementById('serviceID');
-
-                                                    // Add an event listener to the select element to listen for changes
-                                                    selectElement.addEventListener('change', () => {
-                                                        // Get the selected values
-                                                        const selectedValues = Array.from(selectElement.selectedOptions, option => option.value);
-                                                    });
-                                                </script>
-
                                                 <div class="text-center pt-1 mt-5 mb-5 pb-1">
                                                     <button class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit">
                                                         {{ __('Create') }}
@@ -108,16 +97,13 @@
                                         <h4 class="mt-3 mb-5 pb-1">Services</h4>
                                     
                                     @if(isset($services) && count($services) > 0)
-                                    <div class="text-left">
-                                    <h6>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h6><br>
-                                    </div>
                                     <ul class="list-group">
-                                        @foreach($services as $service)
-                                            <div class="d-flex flex-column justify-content-between">
+                                    @foreach($services as $service)
+                                            <div class="d-flex">
                                                 <div>
                                                     <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
                                                 </div>
-                                                <div>
+                                                <div class="ml-4 mt-3 text-left" >
                                                     <h5>Service {{$service -> id}}</h5>
                                                     <h6>{{$service -> name}}</h6>
                                                 </div>
@@ -128,11 +114,11 @@
                                     <h4>No services available at the moment.</h4>
                                     @endif
                                     </div>
-                                    <div class="d-flex flex-column text-justify justify-content-between mt-6">
-                                        <h6>* Appointment are limited to 6 people per day.<br>
-                                        Please come with your own mask. <br>Please keep
-                                        social distancing. <br>Please do not engage verbally
-                                        with our assitants or ask them <br>to get their mask off</h6>
+                                    <div class="m-4">
+                                        <h6>* Appointment are limited to 6 people per day.
+                                        Please come with your own mask.Please keep
+                                        social distancing.Please do not engage verbally
+                                        with our assitants or ask them to get their mask off</h6>
                                     </div>
                                 </div>
                             </div>
@@ -146,4 +132,6 @@
     </div>
 </body>
 <x-footer></x-footer>
+
 </html>
+
