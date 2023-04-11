@@ -33,21 +33,23 @@ class BookingController extends Controller
 
     public function updateBooking(Request $req)
     {
-        $req->validate([
+        $validatedData = $req->validate([
             'date' => 'required|after:today',
             'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
-            'serviceID' => 'required',     
+            'services' => 'required|array',
+            'services.*' => 'exists:services,id',     
         ], [
             'date.after' => 'The new date must be tommorrow or a future date.',
         ]);
 
         $booking = Booking::find($req->id);
+        $booking->date = $validatedData['date'];
+        $booking->time = $validatedData['time'];
         
-        $booking->date = $req->date;
-        $booking->time = Carbon::createFromFormat('H:i:s', $req->time.':00');
-        $booking->serviceID = $req->serviceID;
+        $services = Service::whereIn('id', $validatedData['services'])->get();
+        $booking->services() ->sync($services);
         $booking->save();
-        return redirect("displayBooking");
+        return redirect()->route('booking.displayBooking');
     }
 
     public function deleteBooking($id)
@@ -115,8 +117,6 @@ class BookingController extends Controller
         // Redirect the user to the booking details page
         return redirect()->route('booking.displayBooking');
     }
-
-
 
     protected function getServices()
     {
