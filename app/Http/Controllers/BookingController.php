@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Booking;
-use Carbon\Carbon;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
@@ -38,38 +38,39 @@ class BookingController extends Controller
     public function showUpdate($id)
     {
         $booking = Booking::find($id);
-        $dateOnly = new Carbon($booking->date);
-        $booking->date = $dateOnly->toDateString();
-        $booking->time = Carbon::parse($booking->time)->format('H:i');
-        return view("booking.updateBooking", ['booking' => $booking]);
+        $services = Service::all();
+        return view("booking.updateBooking", ['booking'=>$booking, 'services'=>$services]);
     }
 
     public function updateBooking(Request $req)
     {
-        $req->validate([
+        $validatedData = $req->validate([
             'date' => 'required|after:today',
             'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
-            'serviceID' => 'required',
+            'services' => 'required|array',
+            'services.*' => 'exists:services,id',     
         ], [
             'date.after' => 'The new date must be tommorrow or a future date.',
         ]);
 
         $booking = Booking::find($req->id);
-
-        // Combine the date and time into a datetime object
-        $datetime = Carbon::createFromFormat('Y-m-d H:i:s', $req->date . ' ' . $req->time . ':00');
-        $booking->date = $datetime;
-        $booking->time = $datetime;
-        $booking->serviceID = $req->serviceID;
+        $booking->date = $validatedData['date'];
+        $booking->time = $validatedData['time'];
+        
+        $services = Service::whereIn('id', $validatedData['services'])->get();
+        $booking->services() ->sync($services);
         $booking->save();
-        return redirect("displayBooking");
+        return redirect()->route('booking.displayBooking');
     }
 
     public function deleteBooking($id)
     {
-        $booking_id = Booking::find($id);
-        echo "$booking_id";
-        $booking_id -> delete();
+        $booking_id = Booking::find($id)
+                    -> delete();
+        $booking_id = DB::table('booking_services')
+                    -> where('booking_id','=',$id)
+
+                    -> delete();
         return redirect("displayBooking")->with('success', 'Booking deleted successfully');
     }
 
@@ -127,8 +128,6 @@ class BookingController extends Controller
         // Redirect the user to the booking details page
         return redirect()->route('booking.displayBooking');
     }
-
-
 
     protected function getServices()
     {

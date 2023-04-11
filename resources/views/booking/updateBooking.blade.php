@@ -9,6 +9,12 @@
     <title>Update Your Booking</title>
     <link rel="icon" type="image/x-icon" href="{{URL::asset('/image/logo.png')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
     
 </head>
 
@@ -22,15 +28,21 @@
                         <div class="card text-black" style="border-radius:10px">
                             <div class="row g-0">
                                 <div class="col-lg-6">
-                                    <div class="card-header mb-4"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Your Appointment') }}</div>
+                                    <div class="card-header mb-1"> {{ isset($url) ? ucwords($url) : ""}} {{ __('Your Appointment') }}</div>
                                     <div class="card-body p-md-0 mx-md-5">
+                                        <div class="text-center">
+                                            <img src="{{URL::asset('/image/logo.png')}}" style="width: 185px;" alt="logo">
+                                        </div>
+                                        <div style="text-align:center;">
+                                            <h4>jo salone</h4>
+                                        </div>
                                         @isset($url)
                                         <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                             @else
                                             <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                                 @endisset
                                                 @csrf
-                                                <div class="form-outline mb-4">
+                                                <div class="form-outline mb-4 mt-5">
                                                     <input type="hidden" name="id" value="{{$booking['id']}}">
                                                     <label for="date" class="form-label">{{ __('Select New Date') }}</label>
 
@@ -54,15 +66,15 @@
                                                 </div>
 
                                                 <div class="form-outline mb-4">
-                                                    <label for="serviceID" class="form-label">{{ __('Select New Service ID') }}</label>
-
-                                                    <select class="form-select form-control @error('serviceID') is-invalid @enderror" id="serviceID" name="serviceID" >
-                                                        <option value="">---Select an Option---</option>
-                                                        <option value="{{1}}" {{ $booking['serviceID'] == '1' ? 'selected' : '' }}>Service 1</option>
-                                                        <option value="{{2}}" {{ $booking['serviceID'] == '2' ? 'selected' : '' }}>Service 2</option>
-                                                        <option value="{{3}}" {{ $booking['serviceID'] == '3' ? 'selected' : '' }}>Service 3</option>
-                                                        <option value="{{4}}" {{ $booking['serviceID'] == '4' ? 'selected' : '' }}>Service 4</option>
-                                                    </select>
+                                                    <label for="serviceID" class="form-label">{{ __('Select Service ID') }}</label>
+                                                    <div class="form-group">
+                                                        <label for="services">Services</label>
+                                                        <select name="services[]" id="services" class="selectpicker form-control @error('serviceID') is-invalid @enderror" multiple data-max-options="4">
+                                                            @foreach($services as $service)
+                                                            <option value="{{ $service->id }}" {{ in_array($service->id, old('services', [])) ? 'selected' : '' }}>{{ $service->id }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                     @error('serviceID')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -70,38 +82,53 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="text-center pt-1 mb-5 pb-1">
-                                                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">
+                                                <script>
+                                                    // Get the select element
+                                                    const selectElement = document.getElementById('serviceID');
+
+                                                    // Add an event listener to the select element to listen for changes
+                                                    selectElement.addEventListener('change', () => {
+                                                        // Get the selected values
+                                                        const selectedValues = Array.from(selectElement.selectedOptions, option => option.value);
+                                                    });
+                                                </script>
+
+                                                <div class="text-center pt-1 mt-5 mb-5 pb-1">
+                                                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit">
                                                         {{ __('Update') }}
                                                     </button>
                                                 </div>
                                             </form>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 px-5 d-none d-sm-block">
+                                <div class="col-sm-6 px-0 d-none d-sm-block">
                                     <div class="text-center">
-                                        <h4 class="mt-3 mb-4 pb-1">Services</h4>
+                                        <h4 class="mt-3 mb-5 pb-1">Services</h4>
                                         <!-- <div style="border-bottom: 1px solid; width:50%;"></div> -->
                                     </div>
-                                    <div class="text-left">
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/haircut.jpg')}}" style="width: 99px; margin-right:5px;" alt="logo">
-                                            Service 1: Cut | include wash & styling
-                                        </div>
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/perm.png')}}" style="width: 106px;" alt="logo">
-                                            Service 2: Perm | include wash & styling
-                                        </div>
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/hairdye.jpg')}}" style="width: 110px;" alt="logo">
-                                            Service 3: Color | include wash & styling
-                                        </div>
-                                        <div class="mb-3">
-                                            <img src="{{URL::asset('/image/treatment.jpg')}}" style="width: 110px;" alt="logo">
-                                            Service 4: Treatment | include wash & styling
-                                        </div>
-                                    </div>
-                                    <div class="text-left" style="font-size:13px;margin-top:40px; margin-left:6px; margin-right:6px;">
+                                    @if(isset($services) && count($services) > 0)
+                                    <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
+                                    <ul class="list-group">
+                                        @foreach($services as $service)
+                                        <li class="">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between">
+                                                    <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
+                                                    <h4>Service {{$service -> id}}</h4>
+                                                    <h4>{{$service -> name}}</h4>
+
+
+                                                </div>
+                                                <!-- <a href="{{ route('booking.createBooking') }}">
+                                <button type="button" class="btn btn-outline-dark mr-2">book now</button>
+                            </a> -->
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                    @else
+                                    <h4>No services available at the moment.</h4>
+                                    @endif                             <div class="text-left" style="font-size:13px;margin-top:40px; margin-left:6px; margin-right:6px;">
                                         * Appointment are limited to 6 people per day.
                                         Please come with your own mask. Please keep
                                         social distancing. Please do not engage verbally
