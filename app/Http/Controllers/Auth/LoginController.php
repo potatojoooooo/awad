@@ -85,7 +85,7 @@ class LoginController extends Controller
     {
         Session::flush(); 
         Auth::logout(); 
-        return redirect()->route('home')->with('message', 'Log out successfully.'); 
+        return redirect()->route('home')->with('message', 'Logged out successfully.'); 
     }
     
 }

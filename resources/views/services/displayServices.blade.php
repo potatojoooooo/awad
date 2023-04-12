@@ -20,9 +20,7 @@
                 <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
                 <ul class="list-group">
 
-                    <li class="list-group-item">
-                        <div class="d-flex justify-content-between">
-                            <div>
+
                     <li class="list-group-item">
                         <div class="d-flex justify-content-between">
                             <div>
