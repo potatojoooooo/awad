@@ -42,7 +42,7 @@
                         <h1 class="display-4">Welcome to Jo Salone, Guest!</h1>
                         <p class="lead">for him, for her.</p>
                         <img class="img-fluid rounded mx-3 d-block bg-img" src="{{ asset('image/salon-background.jpg') }}" alt="Jo Salone"><br>
-                        
+                        <a href="{{ route('booking.createBooking') }}" class="btn btn-lg btn-outline-dark">Make an appointment now</a>
                         @endif
 
                     </div>
@@ -52,4 +52,5 @@
     </div>
 </body>
 <x-footer></x-footer>
+
 </html>

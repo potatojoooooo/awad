@@ -25,13 +25,13 @@
                         </a>
                     </div>
                 </div>
-
+                <br>
                 @if(session('bookSuccess'))
-                        <div class="alert alert-success">{{ session('bookSuccess') }}</div>
+                <div class="alert alert-success">{{ session('bookSuccess') }}</div>
                 @elseif(session('deleteSuccess'))
-                        <div class="alert alert-success">{{ session('deleteSuccess') }}</div>
+                <div class="alert alert-success">{{ session('deleteSuccess') }}</div>
                 @elseif(session('updateSuccess'))
-                        <div class="alert alert-success">{{ session('updateSuccess') }}</div>
+                <div class="alert alert-success">{{ session('updateSuccess') }}</div>
                 @endif
                 <table class="table mt-4">
                     <thead>
