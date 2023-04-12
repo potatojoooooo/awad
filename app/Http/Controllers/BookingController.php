@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Booking;
 use App\Models\Service;
+use App\Models\Admin;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Auth\Access\UnauthorizedException;
 
 class BookingController extends Controller
 {
@@ -51,7 +55,7 @@ class BookingController extends Controller
         $services = Service::whereIn('id', $validatedData['services'])->get();
         $booking->services()->sync($services);
         $booking->save();
-        return redirect()->route('booking.displayBooking')->with('updateSuccess', 'Booking updated successfully');
+        return redirect()->route('booking.user')->with('updateSuccess', 'Booking updated successfully');
     }
 
     public function deleteBooking($id)
@@ -64,25 +68,6 @@ class BookingController extends Controller
             ->delete();
         return redirect("displayBooking")->with('deleteSuccess', 'Booking deleted successfully');
     }
-
-
-    // public function processForm(Request $request)
-    // {
-    //     $selectedOptions = $request->input('selectedOptions');
-    //     // return view('form', ['selectedOptions' => $selectedOptions]);
-    //     
-    // }
-
-    // protected function validateBooking(array $data)
-    // {
-    //     return Validator::make($data, [
-    //         'date' => 'required',
-    //         'time' => 'required',
-    //         'serviceID' => 'required',
-    //         'name' => 'required|max:2',
-    //         'phone' => 'required| max:2'
-    //     ]);
-    // }
 
     protected function validateBooking(array $data)
     {
@@ -103,7 +88,8 @@ class BookingController extends Controller
             'services.*' => 'exists:services,id',
         ]);
         $user = Auth::user();
-        session(['user_id' => $user->id]);
+        $user_id = $user->id;
+        session(['user_id' => $user_id]);
         // Create a new booking record and retrieve its id
         $booking = new Booking();
         $booking->userID = $user->id;
@@ -117,7 +103,7 @@ class BookingController extends Controller
         $booking->services()->attach($services);
 
         // Redirect the user to the booking details page
-        return redirect()->route('booking.displayBooking')->with('bookSuccess', 'Booking has been made.');;
+        return redirect()->route('booking.user', ['id' => $user_id]);
     }
 
     protected function getServices()
@@ -126,57 +112,79 @@ class BookingController extends Controller
         return view('booking.createBooking', ['services' => $services]);
     }
 
-    public function index()
-    {
-        $bookings = Booking::all();
-        return view('bookings.index', compact('bookings'));
-    }
-
-    public function create()
-    {
-        return view('bookings.create');
-    }
-
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'date' => 'required|date',
-        ]);
-
-        $booking = Booking::create($validatedData);
-
-        return redirect('/bookings');
-    }
-
     public function show(Booking $booking)
     {
-        return view('bookings.show', compact('booking'));
+        if (Auth::guard('admin')->check()) {
+            $admin = Auth::user();
+            $admin_id = $admin->id;
+            session(['admin_id' => $admin_id]);
+            $bookings = Booking::all();
+            return view('booking.displayBookingAdmin', ['id' => $admin_id], compact('bookings'));
+        }
     }
 
     public function edit(Booking $booking)
     {
-        return view('bookings.edit', compact('booking'));
+        $services = DB::table('services')->get();
+        return view('booking.updateBooking', ['services' => $services], compact('booking'));
     }
 
     public function update(Request $request, Booking $booking)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'service_id' => 'required|exists:services,id',
-            'date' => 'required|date',
-        ]);
+        if (auth()->guard('admin')->check()) {
+            $this->authorize('update', $booking);
 
-        $booking->update($validatedData);
+            $validatedData = $request->validate([
+                'date' => 'required|after:today',
+                'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
+                'services' => 'required|array',
+                'services.*' => 'exists:services,id',
+            ], [
+                'date.after' => 'The new date must be tomorrow or a future date.',
+            ]);
 
-        return redirect('/bookings/' . $booking->id);
+            $booking->date = $validatedData['date'];
+            $booking->time = $validatedData['time'];
+
+            $services = Service::whereIn('id', $validatedData['services'])->get();
+            $booking->services()->sync($services);
+
+            $booking->save();
+
+            return redirect()->route('booking.admin')->with('updateSuccess', 'Booking updated successfully');
+        }
+        abort(403); // user is not authorized to perform this action
     }
 
-    public function destroy(Booking $booking)
+    public function delete(Admin $admin, Booking $booking)
     {
+        // Check if the authenticated user is an admin
+        if (!auth()->guard('admin')->check()) {
+            throw new AuthorizationException('Unauthorized action.');
+        }
+
+        // Check if the authenticated admin can delete the booking
+        if (Gate::denies('delete', $booking)) {
+            throw new AuthorizationException('Unauthorized action.');
+        }
+
+        // Delete the booking
         $booking->delete();
 
-        return redirect('/bookings');
+        return redirect()->route('booking.displayBookingAdmin')->with('success', 'Booking deleted successfully.');
+    }
+
+    public function index()
+    {
+        if (auth()->guard('admin')->check()) {
+            $bookings = Booking::orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            if (!auth()->check()) {
+                return redirect()->route('login');
+            }
+            $user = Auth::user(); // Get the currently authenticated user
+            $bookings = Booking::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10); // Get all bookings made by the user
+        }
+        return view('booking.index', compact('bookings'));
     }
 }

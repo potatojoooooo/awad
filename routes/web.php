@@ -53,47 +53,34 @@ Route::get('/register/user', [RegisterController::class, 'showUserRegisterForm']
 //Post user register details
 Route::post('/register/user', [RegisterController::class, 'createUser']);
 
-// Verify and view admin is authenticated
+//Admin
 Route::group(['middleware' => ['auth:admin']], function () {
-    Route::get('/admin/home', function () {
+    Route::get('/home/admin/{id}', function () {
         return view('home');
-    })->name('admin.home');
+    })->name('home.admin');
+    Route::get('/admin/profile/{id}', [ProfileController::class, 'getAdmin'])->name('profile.admin');
+    Route::get('/services/admin/{id}', [ServiceController::class, 'show'])->name('services.admin');
+    Route::get('/showBooking', [BookingController::class, 'show'])->name('booking.admin');
+    Route::get('/booking/{id}/edit', [BookingController::class, 'edit'])->name('booking.editBooking');
+    Route::put('/booking/{id}/update', [BookingController::class, 'update'])->name('booking.updateBooking');
+    Route::get('/bookings/admin', [BookingController::class, 'index'])->name('booking.displayBookingAdmin');
+    Route::delete('/bookings/{admin}/{booking}', [BookingController::class, 'delete'])->name('booking.delete');
 });
 
+//User
 Route::group(['middleware' => ['auth:web']], function () {
-    Route::get('/user/home', function () {
+    Route::get('/home/user/{id}', function () {
         return view('home');
-    })->name('user.home');
+    })->name('home.user');
+    Route::get('/user/profile/{id}', [ProfileController::class, 'getUser'])->name('profile.user');
+    Route::get('/services/user/{id}', [ServiceController::class, 'getServices'])->name('services.user');
+    Route::get('/displayBooking', [BookingController::class, 'getBookings'])->name('booking.user');
+    Route::get('/createBooking', [BookingController::class, 'getServices'])->name('booking.createBooking');
+    Route::post('/createBooking', [BookingController::class, 'createBooking']);
+    Route::get('/updateBooking/{id}', [BookingController::class, 'ShowUpdate']);
+    Route::post('/updateBooking/{id}', [BookingController::class, 'updateBooking'])->name('booking.updateBooking');
+    Route::get('/deleteBooking/{id}', [BookingController::class, 'deleteBooking'])->name('booking.deleteBooking');
 });
-
-// Routes for user profile
-Route::middleware(['auth'])->group(function () {
-    Route::get('/user/profile', [ProfileController::class, 'getUser'])->name('profile.user');
-});
-
-// Routes for admin profile
-Route::middleware(['auth:admin'])->group(function () {
-    Route::get('/admin/profile', [ProfileController::class, 'getAdmin'])->name('profile.admin');
-});
-
-//Services
-Route::get('/services', [ServiceController::class, 'getServices'])->name('services');
-
-//Display booking
-Route::get("displayBooking", [BookingController::class, 'getBookings'])->name('booking.displayBooking');
-
-//Create booking
-Route::get("createBooking", [BookingController::class, 'getServices'])->name('booking.createBooking');
-Route::post("createBooking", [BookingController::class, 'createBooking']);
-
-//Update booking
-//Route::view("updateBooking", "booking.updateBooking")->name('booking.updateBooking');
-Route::get("updateBooking/{id}", [BookingController::class, 'ShowUpdate']);
-Route::post("updateBooking/{id}", [BookingController::class, 'updateBooking'])->name('booking.updateBooking');
-
-//Delete booking
-Route::get('deleteBooking/{id}', [BookingController::class, 'deleteBooking'])->name('booking.deleteBooking');
-
 
 //About us
 Route::view("aboutus", "aboutUs")->name('aboutus');
@@ -110,38 +97,9 @@ Route::post('/delete/user/profile', [ProfileController::class, 'deleteUser'])->n
 //Delete admin profile
 Route::post('/delete/admin/profile', [ProfileController::class, 'deleteAdmin'])->name('delete.admin');
 
-//User Service Booking policy
+Route::get('/services', [ServiceController::class, 'getServices'])->name('services');
+
+//Policy
 Gate::policy(User::class, UserModelPolicy::class);
 Gate::policy(Service::class, ServiceModelPolicy::class);
 Gate::policy(Booking::class, BookingModelPolicy::class);
-
-Route::middleware(['auth'])->group(function () {
-    // Service routes
-    Route::get('/service', [ServiceController::class, 'index'])->name('services.index');
-    // Route::get('/services/create', [ServiceController::class, 'create']);
-    // Route::post('/services', [ServiceController::class, 'store']);
-    // Route::get('/services', [ServiceController::class, 'show']);
-    // Route::get('/services/{service}/edit', [ServiceController::class, 'edit']);
-    // Route::put('/services/{service}', [ServiceController::class, 'update']);
-    // Route::delete('/services/{service}', [ServiceController::class, 'destroy']);
-
-    // Booking routes
-    Route::get('/showBooking', [BookingController::class, 'index'])->name('bookings.index');
-    // Route::get('/createBooking', [BookingController::class, 'create']);
-    // Route::post('/createBooking', [BookingController::class, 'store']);
-    // Route::get('/displayBooking', [BookingController::class, 'show']);
-    // Route::get('/updateBooking/{id}', [BookingController::class, 'edit']);
-    // Route::put('/updateBooking/{id}', [BookingController::class, 'update']);
-    // Route::delete('/deleteBooking/{id}', [BookingController::class, 'destroy']);
-});
-
-//Display services
-Route::get('/service', [ServiceController::class, 'getServices'])->name('services.displayServices');
-//Create services
-Route::post("createService", [ServiceController::class, 'createService']);
-//Update service
-Route::get("updateService/{id}", [ServiceController::class, 'ShowUpdate']);
-Route::post("updateService/{id}", [ServiceController::class, 'updateService'])->name('services.updateService');
-//Delete service
-Route::get('deleteService/{id}', [ServiceController::class, 'deleteService'])->name('services.deleteService');
-

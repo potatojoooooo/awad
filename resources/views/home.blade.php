@@ -22,29 +22,27 @@
                         <div class="alert alert-success">{{ session('message') }}</div>
                         <h1 class="display-4">Welcome to Jo Salone, Guest!</h1>
                         <img class="img-fluid rounded mx-3 d-block bg-img" src="{{ asset('image/salon-background.jpg') }}" alt="Jo Salone"><br>
-                        <!-- <a href="{{ route('booking.createBooking') }}" class="btn btn-lg btn-outline-dark">Make an appointment now</a> -->
+                        
                         @elseif(session('deleteUser'))
                         <div class="alert alert-success">{{ session('deleteUser') }}</div>
                         <h1 class="display-4">Welcome to Jo Salone, Guest!</h1>
                         <img class="img-fluid rounded mx-3 d-block bg-img" src="{{ asset('image/salon-background.jpg') }}" alt="Jo Salone"><br>
-                        <!-- <a href="{{ route('booking.createBooking') }}" class="btn btn-lg btn-outline-dark">Make an appointment now</a> -->
+                       
                         @elseif(Auth::guard('admin')->check())
                         <h1 class="display-4">Welcome to Jo Salone, {{ session('admin_name') }}!</h1>
                         <p class="lead">for him, for her.</p>
                         <img class="img-fluid rounded mx-3 d-block bg-img" src="{{ asset('image/salon-background.jpg') }}" alt="Jo Salone"><br>
-                        <!-- <a href="{{ route('booking.createBooking') }}" class="btn btn-lg btn-outline-dark">Make an appointment now</a> -->
-                        <!-- <a href="{{ route('logout') }}" class="btn btn-lg btn-outline-dark">Log out</a> -->
+                        
                         @elseif(Auth::guard('web')->check())
                         <h1 class="display-4">Welcome to Jo Salone, {{ session('user_name') }}!</h1>
                         <p class="lead">for him, for her.</p>
                         <img class="img-fluid rounded mx-3 d-block bg-img" src="{{ asset('image/salon-background.jpg') }}" alt="Jo Salone"><br>
-                        <!-- <a href="{{ route('booking.displayBooking') }}" class="btn btn-lg btn-outline-dark">Display appointment made</a>
-                        <a href="{{ route('logout') }}" class="btn btn-lg btn-outline-dark">Log out</a> -->
+                       
                         @else
                         <h1 class="display-4">Welcome to Jo Salone, Guest!</h1>
                         <p class="lead">for him, for her.</p>
                         <img class="img-fluid rounded mx-3 d-block bg-img" src="{{ asset('image/salon-background.jpg') }}" alt="Jo Salone"><br>
-                        <!-- <a href="{{ route('booking.createBooking') }}" class="btn btn-lg btn-outline-dark">Make an appointment now</a> -->
+                        
                         @endif
 
                     </div>

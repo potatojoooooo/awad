@@ -60,7 +60,9 @@ class LoginController extends Controller
             $admin = Admin::where('email', $request->email)->first();
             $admin_name = $admin->name;
             session(['admin_name' => $admin_name]);
-            return redirect()->intended('/admin/home');
+            $admin_id = $admin-> id;
+            session(['admin_id' => $admin_id]);
+            return redirect()->route('home.admin', ['id' => $admin_id]);
         }
         return back()->withInput($request->only('email', 'remember'));
     }
@@ -75,10 +77,13 @@ class LoginController extends Controller
             $user = User::where('email', $request->email)->first();
             $user_name = $user->name;
             session(['user_name' => $user_name]);
-            return redirect()->intended('/user/home');
+            $user_id = $user-> id;
+            session(['user_id' => $user_id]);
+            return redirect()->route('home.user', ['id' => $user_id]);
         }
         return back()->withInput($request->only('email', 'remember'));
     }
+    
 
 
     public function logout()

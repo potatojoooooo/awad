@@ -81,7 +81,7 @@
                                         <a href="{{ route('logout') }}" class="btn btn-lg btn-light w-100" style="border: 2px solid black;">Log out</a>
                                     </div>
                                     <div class="col-sm-6">
-                                        <a href="{{ route('booking.displayBooking') }}" class="btn btn-lg btn-secondary w-100">View bookings</a>
+                                        <a href="{{ route('booking.user') }}" class="btn btn-lg btn-secondary w-100">View bookings</a>
                                     </div>
                                 </div>
                                 @if(session('user_id'))

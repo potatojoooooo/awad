@@ -2,92 +2,51 @@
 
 namespace App\Policies;
 
+use App\Models\Admin;
 use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\AuthorizationException;
 
-class BookingModelPolicy
+
+class BookingPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can edit the booking.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param  \App\Models\Admin  $admin
+     * @param  \App\Models\Booking  $booking
+     * @return mixed
      */
-    public function viewAny(User $user)
+    public function edit(Admin $admin, Booking $booking)
     {
-        return true;
+        return $admin->id === $booking->admin_id;
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can delete the booking.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Admin  $admin
      * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return mixed
      */
-    public function view(User $user, Booking $booking)
+    public function delete(Admin $admin, Booking $booking)
     {
+        // Check if the authenticated user is an admin
+        if (!auth()->guard('admin')->check()) {
+            return false;
+        }
+    
+        // Check if the authenticated admin is the same as the admin in the booking
+        if (auth()->guard('admin')->user()->id !== $booking->admin_id) {
+            return false;
+        }
+    
         return true;
     }
-
-    /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function create(User $user)
-    {
-        return true;
-    }
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function update(User $user, Booking $booking)
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function delete(User $user, Booking $booking)
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Booking $booking)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Booking  $booking
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Booking $booking)
-    {
-        //
-    }
+    
+    
+    
 }

@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use App\Models\Service;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
+    // for displaying the services to user and guest
     public function getServices()
     {
-        // $services = DB::table('services')->get();
-        // return view('services')->with('services', $services);
-
-        $services=Service::paginate(5);
-        return view('services.displayServices', ['services'=>$services]);
+        $services = Service::paginate(5);
+        return view('services.displayService', ['services' => $services]);
     }
 
     public function create()
@@ -37,12 +36,18 @@ class ServiceController extends Controller
 
     public function show(Service $service)
     {
-        return view('services.show', compact('service'));
+        if (Auth::guard('admin')->check()) {
+            $admin = Auth::user();
+            $admin_id = $admin->id;
+            session(['admin_id' => $admin_id]);
+            $service = Service::paginate(5);
+            return view('services.updateService', ['id' => $admin_id], ['services' => $service], compact('service'));
+        }
     }
 
     public function edit(Service $service)
     {
-        return view('services.edit', compact('service'));
+        return view('services.updateService', compact('service'));
     }
 
     public function update(Request $request, Service $service)
@@ -58,11 +63,6 @@ class ServiceController extends Controller
         return redirect('/services/' . $service->id);
     }
 
-    public function destroy(Service $service)
-    {
-        $service->delete();
+   
 
-        return redirect('/services');
-       
-    }
 }
