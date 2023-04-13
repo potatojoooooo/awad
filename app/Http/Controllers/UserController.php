@@ -6,45 +6,44 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
-    public function index()
+    public function createUser(Request $request)
     {
-        $users = User::all();
+        // Check if the user is authorized to create a user
+        if (Gate::denies('create', User::class)) {
+            abort(403);
+        }
 
-        return view('users.home', compact('users'));
+        // Your code to create a new user
     }
 
-    public function show(User $user)
+    public function displayUser($id)
     {
-        return view('users.show', compact('user'));
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Check if the user is authorized to view the user
+        if (Gate::denies('view', $user)) {
+            abort(403);
+        }
+
+        // Your code to display the user
     }
-    
-    public function edit(User $user)
+
+    public function updateUser(Request $request, $id)
     {
-        return view('users.edit', compact('user'));
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Check if the user is authorized to update the user
+        if (Gate::denies('update', $user)) {
+            abort(403);
+        }
+
+        // Your code to update the user
     }
-    
-    public function update(Request $request, User $user)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone' => 'required|string|max:11',
-            'password' => 'required',
-        ]);
-    
-        $user->update($validatedData);
-    
-        return redirect('/users/' . $user->id);
-    }
-    
-    public function destroy(User $user)
-    {
-        $user->delete();
-    
-        return redirect('/users');
-    }   
 }
 

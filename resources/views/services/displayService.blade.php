@@ -9,13 +9,22 @@
     <title>Services</title>
     <link rel="icon" type="image/x-icon" href="{{URL::asset('/image/about-us.jpg')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="row justify-content-center">
             <div class="container mt-4 h-100">
-                <h1>Our Services</h1><br>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1>Our Services</h1><br>
+                    @if(session()->has('admin_id'))
+                    <div class="ml-auto">
+                        <button type="button" class="btn btn-outline-dark">Create Services</button>
+                    </div>
+                    @endif
+                </div>
                 @if(isset($services) && count($services) > 0)
                 <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
                 <ul class="list-group">
@@ -56,11 +65,11 @@
                                                     <button type="button" class="btn btn-outline-dark mr-2">Book Now</button>
                                                 </a>
                                                 @elseif(session()->has('admin_id'))
-                                                <a href="{{ route('services.updateService', $service->id)}}">
+                                                <a href="{{ route('services.update', $service->id)}}">
                                                     <button type="button" class="btn btn-outline-dark mr-2">update</button>
                                                 </a>
                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-serviceid="{{ $service->id }}">delete</button>
-
+                                                @endif
                                                 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="demoModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
@@ -74,7 +83,7 @@
                                                                 <p>Are you sure you want to delete service <span id="serviceId"></span>? </p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <form id="deleteForm" action="{{ route('services.deleteService', $service->id)}}">
+                                                                <form id="deleteForm" action="{{ route('services.delete', $service->id)}}">
                                                                     @csrf
                                                                     <button type="submit" class="btn btn-danger">Delete</button>
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -91,11 +100,9 @@
                                                         var serviceId = button.data('serviceid');
                                                         var modal = $(this);
                                                         modal.find('#serviceId').text(serviceId);
-                                                        modal.find('#deleteForm').attr('action', "{{ route('services.deleteService') }}/" + serviceId);
+                                                        modal.find('#deleteForm').attr('action', "{{ route('services.delete', ['id' => ':id']) }}".replace(':id', serviceId));
                                                     });
                                                 </script>
-                                                @endif
-
                                         </tr>
                                         @endforeach
                                     </tbody>

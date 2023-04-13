@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Admin;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Access\UnauthorizedException;
+
 
 class BookingController extends Controller
 {
@@ -112,28 +110,29 @@ class BookingController extends Controller
         return view('booking.createBooking', ['services' => $services]);
     }
 
-    public function show(Booking $booking)
+    public function view()
     {
-        if (Auth::guard('admin')->check()) {
-            $admin = Auth::user();
-            $admin_id = $admin->id;
-            session(['admin_id' => $admin_id]);
+        // Check if the user is logged in as an admin
+        if (session('admin_id') !== null) {
+            // Retrieve all bookings if the user is an admin
             $bookings = Booking::all();
-            return view('booking.displayBookingAdmin', ['id' => $admin_id], compact('bookings'));
+            return view('booking.displayBookingAdmin', ['bookings' => $bookings]);
         }
     }
 
-    public function edit(Booking $booking)
+    public function update(Request $request, $id)
     {
-        $services = DB::table('services')->get();
-        return view('booking.updateBooking', ['services' => $services], compact('booking'));
-    }
+        // Find the booking by ID
+        $booking = Booking::findOrFail($id);
 
-    public function update(Request $request, Booking $booking)
-    {
-        if (auth()->guard('admin')->check()) {
-            $this->authorize('update', $booking);
+        // Check if the user is authorized to update the booking
+        if (Gate::denies('update', $booking) && Gate::denies('admin-update', $booking) && session('admin_id') === null) {
+            abort(403);
+        }
 
+        // If the user is an admin or logged in as an admin, update the booking as an admin
+        if (Gate::allows('admin-update', $booking) || session('admin_id') !== null) {
+            // Validate the input
             $validatedData = $request->validate([
                 'date' => 'required|after:today',
                 'time' => 'required|after:08:59|before:17:01', //must between 9am to 5pm
@@ -143,48 +142,41 @@ class BookingController extends Controller
                 'date.after' => 'The new date must be tomorrow or a future date.',
             ]);
 
+            // Update the booking
             $booking->date = $validatedData['date'];
             $booking->time = $validatedData['time'];
-
             $services = Service::whereIn('id', $validatedData['services'])->get();
             $booking->services()->sync($services);
-
             $booking->save();
 
-            return redirect()->route('booking.admin')->with('updateSuccess', 'Booking updated successfully');
+            return redirect()->route('booking.displayBooking')->with('updateSuccess', 'Booking updated successfully');
         }
-        abort(403); // user is not authorized to perform this action
+
+        // If the user is not an admin or not logged in as an admin, update the booking as a regular user
+        $booking->date = $request->input('date');
+        $booking->time = $request->input('time');
+        $booking->services()->sync($request->input('services'));
+        $booking->save();
+
+        return redirect()->route('booking.displayBooking')->with('updateSuccess', 'Booking updated successfully');
     }
 
-    public function delete(Admin $admin, Booking $booking)
+    public function delete($id)
     {
-        // Check if the authenticated user is an admin
-        if (!auth()->guard('admin')->check()) {
-            throw new AuthorizationException('Unauthorized action.');
+        // Find the booking by ID
+        $booking = Booking::findOrFail($id);
+
+        // Check if the user is authorized to delete the booking
+        if (Gate::denies('delete', $booking) && Gate::denies('admin-delete', $booking) && session('admin_id') === null) {
+            abort(403);
         }
 
-        // Check if the authenticated admin can delete the booking
-        if (Gate::denies('delete', $booking)) {
-            throw new AuthorizationException('Unauthorized action.');
+        // If the user is an admin or logged in as an admin, delete the booking as an admin
+        if (Gate::allows('admin-delete', $booking) || session('admin_id') !== null) {
+            // Delete the booking and its associated services
+            DB::table('booking_services')->where('booking_id', $booking->id)->delete();
+            $booking->delete();
+            return redirect()->route('booking.admin')->with('deleteSuccess', 'Booking deleted successfully');
         }
-
-        // Delete the booking
-        $booking->delete();
-
-        return redirect()->route('booking.displayBookingAdmin')->with('success', 'Booking deleted successfully.');
-    }
-
-    public function index()
-    {
-        if (auth()->guard('admin')->check()) {
-            $bookings = Booking::orderBy('created_at', 'desc')->paginate(10);
-        } else {
-            if (!auth()->check()) {
-                return redirect()->route('login');
-            }
-            $user = Auth::user(); // Get the currently authenticated user
-            $bookings = Booking::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10); // Get all bookings made by the user
-        }
-        return view('booking.index', compact('bookings'));
     }
 }
