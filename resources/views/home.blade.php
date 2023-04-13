@@ -27,6 +27,9 @@
                         @elseif(session('deleteUser'))
                         <div class="alert alert-success">{{ session('deleteUser') }}</div>
                         <h1 class="display-4">Welcome to Jo Salone, Guest!</h1>
+                        @elseif(session('deleteAdmin'))
+                        <div class="alert alert-success">{{ session('deleteAdmin') }}</div>
+                        <h1 class="display-4">Welcome to Jo Salone, Guest!</h1>
                         @elseif(Auth::guard('admin')->check())
                         <h1 class="display-4">Welcome to Jo Salone, {{ session('admin_name') }}!</h1>
                         <p class="lead">for him, for her.</p>
@@ -45,13 +48,13 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img class="d-block w-100" src="{{ asset('image/about-us.jpg') }}" alt="First slide">
+                                    <img class="d-block w-100" src="{{ asset('image/slide1.jpg') }}" alt="First slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="{{ asset('image/salon-background.jpg') }}" alt="Second slide">
+                                    <img class="d-block w-100" src="{{ asset('image/slide2.jpg') }}" alt="Second slide">
                                 </div>
                                 <div class="carousel-item">
-                                    <img class="d-block w-100" src="{{ asset('image/login.jpg') }}" alt="Third slide">
+                                    <img class="d-block w-100" src="{{ asset('image/slide3.jpg') }}" alt="Third slide">
                                 </div>
                             </div>
                             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
