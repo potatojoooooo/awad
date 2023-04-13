@@ -20,11 +20,20 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h1>Our Services</h1><br>
                     @if(session()->has('admin_id'))
-                    <div class="ml-auto">
-                        <button type="button" class="btn btn-outline-dark">Create Services</button>
-                    </div>
+                    <a href="{{ route('service.createService') }}">
+                        <div class="ml-auto">
+                            <button type="submit" class="btn btn-outline-dark">Create Service</button>
+                        </div>
+                    </a>
                     @endif
                 </div>
+                @if(session('createSuccess'))
+                        <div class="alert alert-success">{{ session('createSuccess') }}</div>
+                @elseif(session('deleteSuccess'))
+                        <div class="alert alert-success">{{ session('deleteSuccess') }}</div>
+                @elseif(session('updateSuccess'))
+                        <div class="alert alert-success">{{ session('updateSuccess') }}</div>
+                @endif
                 @if(isset($services) && count($services) > 0)
                 <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
                 <ul class="list-group">
@@ -65,7 +74,7 @@
                                                     <button type="button" class="btn btn-outline-dark mr-2">Book Now</button>
                                                 </a>
                                                 @elseif(session()->has('admin_id'))
-                                                <a href="{{ route('services.update', $service->id)}}">
+                                                <a href="{{ route('services.updateService', $service->id)}}">
                                                     <button type="button" class="btn btn-outline-dark mr-2">update</button>
                                                 </a>
                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-serviceid="{{ $service->id }}">delete</button>

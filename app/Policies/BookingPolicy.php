@@ -37,9 +37,4 @@ class BookingPolicy
     {
         return Gate::allows('admin-delete');
     }
-
-    public function adminUpdate(User $user, Booking $booking)
-    {
-        return $user->isAdmin() && $booking->user_id !== $user->id;
-    }
 }

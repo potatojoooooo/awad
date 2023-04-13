@@ -120,16 +120,28 @@ class BookingController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        // Retrieve the booking with the given ID
+        $booking = Booking::with('services')->findOrFail($id);
+
+        // Retrieve the list of services
+        $services = Service::all();
+
+        // Pass the booking and services to the view
+        return view('booking.updateBooking', compact('booking', 'services'));
+    }
+
     public function update(Request $request, $id)
     {
         // Find the booking by ID
         $booking = Booking::findOrFail($id);
-
+    
         // Check if the user is authorized to update the booking
-        if (Gate::denies('update', $booking) && Gate::denies('admin-update', $booking) && session('admin_id') === null) {
+        if (Gate::denies('update', $booking) && Gate::denies('admin-update', $booking) && !session()->has('admin_id')) {
             abort(403);
         }
-
+    
         // If the user is an admin or logged in as an admin, update the booking as an admin
         if (Gate::allows('admin-update', $booking) || session('admin_id') !== null) {
             // Validate the input
@@ -141,25 +153,20 @@ class BookingController extends Controller
             ], [
                 'date.after' => 'The new date must be tomorrow or a future date.',
             ]);
-
+    
             // Update the booking
             $booking->date = $validatedData['date'];
             $booking->time = $validatedData['time'];
             $services = Service::whereIn('id', $validatedData['services'])->get();
             $booking->services()->sync($services);
             $booking->save();
+    
+            return redirect()->route('booking.admin')->with('updateSuccess', 'Booking updated successfully');
 
-            return redirect()->route('booking.displayBooking')->with('updateSuccess', 'Booking updated successfully');
         }
-
-        // If the user is not an admin or not logged in as an admin, update the booking as a regular user
-        $booking->date = $request->input('date');
-        $booking->time = $request->input('time');
-        $booking->services()->sync($request->input('services'));
-        $booking->save();
-
-        return redirect()->route('booking.displayBooking')->with('updateSuccess', 'Booking updated successfully');
     }
+    
+
 
     public function delete($id)
     {

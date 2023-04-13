@@ -35,6 +35,7 @@
                                             <img src="{{URL::asset('/image/about-us.jpg')}}" style="width: 185px;" alt="logo">
                                         </div>
 
+                                        @if(session()->has('user_id'))
                                         @isset($url)
                                         <form method="POST" action="updateBooking" aria-label="{{ __('UpdateBooking') }}">
                                             @else
@@ -96,6 +97,67 @@
                                                         {{ __('Update') }}
                                                     </button>
                                                 </div>
+                                                @elseif(Gate::allows('update', $booking) || Gate::allows('admin-update', $booking) || session()->has('admin_id'))
+                                                <form method="POST" action="{{ route('booking.update', ['id' => $booking->id, 'slug' => 'updateBooking']) }}">
+                                                    @csrf
+                                                    <div class="form-outline mb-4 mt-3">
+                                                        <input type="hidden" name="id" value="{{$booking['id']}}">
+                                                        <label for="date" class="form-label">{{ __('Select New Date') }}</label>
+
+                                                        <input id="date" type="date" class="form-control  @error('date') is-invalid @enderror" name="date" value="{{$booking['date']}}">
+                                                        @error('date')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+
+                                                    </div>
+                                                    <div class="form-outline mb-4">
+                                                        <label for="time" class="form-label">{{ __('Select New Time') }}</label>
+
+                                                        <input id="time" type="time" class="form-control  @error('time') is-invalid @enderror" name="time" value="{{$booking['time']}}">
+                                                        @error('time')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+
+                                                    <div class="form-outline mb-4">
+                                                        <label for="serviceID" class="form-label">{{ __('Select Service ID') }}</label>
+                                                        <div class="form-group">
+                                                            <select name="services[]" id="services" class="selectpicker form-control @error('serviceID') is-invalid @enderror" multiple data-max-options="4">
+                                                                @foreach($services as $service)
+                                                                <option value="{{ $service->id }}" {{ in_array($service->id, old('services', [])) ? 'selected' : '' }}>{{ $service->id }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        @error('serviceID')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                        @enderror
+                                                    </div>
+
+                                                    <script>
+                                                        // Get the select element
+                                                        const select = document.getElementById('serviceID');
+
+                                                        // Add an event listener to the select element to listen for changes
+                                                        select.addEventListener('change', () => {
+                                                            // Get the selected values
+                                                            const selectedValues = Array.from(select.selectedOptions, option => option.value);
+                                                        });
+                                                    </script>
+
+                                                    <div class="text-center pt-1 mt-5 mb-5 pb-1">
+                                                        <button class="btn btn-primary btn-block fa-lg gradient-custom-2" type="submit">
+                                                            {{ __('Update') }}
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                                @endif
+
                                             </form>
                                     </div>
                                 </div>

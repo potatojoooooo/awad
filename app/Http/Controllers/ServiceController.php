@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
@@ -44,11 +45,11 @@ class ServiceController extends Controller
         $service->name = $validatedData['name'];
         $service->price = $validatedData['price'];
         $service->description = $validatedData['description'];
-        $service->image_path = $imagePath;
+        $service->image = $imagePath;
         $service->save();
 
         // Redirect the user to the service details page
-        return redirect()->route('services.show', ['id' => $service->id]);
+        return redirect()->route('services.admin', ['id' => $service->id])->with('createSuccess', 'Service created successfully');;
     }
 
 
@@ -68,6 +69,16 @@ class ServiceController extends Controller
             'services' => $services
         ]);
     }
+
+    public function edit($id)
+    {
+        // Retrieve the service with the given ID
+        $service = Service::find($id);
+
+        // Pass the service to the view
+        return view('services.updateService', compact('service'));
+    }
+
 
 
     public function updateService(Request $request, $id)
@@ -105,7 +116,7 @@ class ServiceController extends Controller
         $service->save();
 
         // Redirect the user to the updated service page
-        return redirect()->route('service.display', ['id' => $service->id]);
+        return redirect()->route('services.admin', ['id' => $service->id])->with('updateSuccess', 'Service updated successfully');;
     }
 
     public function deleteService($id)
@@ -120,6 +131,6 @@ class ServiceController extends Controller
         $adminId = session()->get('admin_id');
 
         $service->delete();
-        return redirect()->route('services.admin' , ['id' => $adminId])->with('deleteSuccess', 'Booking deleted successfully');
+        return redirect()->route('services.admin', ['id' => $adminId])->with('deleteSuccess', 'Service deleted successfully');
     }
 }
