@@ -85,7 +85,7 @@
                                             <div class="modal-footer">
                                                 @if(auth()->guard('admin')->check())
 
-                                                <form id="deleteForm" action="{{ route('booking.delete', [auth()->guard('admin')->user()->id, $booking]) }}" method="POST">
+                                                <form id="deleteForm" action="{{ route('booking.delete', ['id' => $booking->id]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -104,7 +104,7 @@
                                         var bookingId = button.data('bookingid');
                                         var modal = $(this);
                                         modal.find('#bookingId').text(bookingId);
-                                        modal.find('#deleteForm').attr('action', "{{ route('booking.delete', [auth()->guard('admin')->user(), ':id']) }}".replace(':id', bookingId));
+                                        modal.find('#deleteForm').attr('action', "{{ route('booking.delete', ['id' => $booking->id]) }}".replace(':id', bookingId));
                                     });
                                 </script>
                             </td>
