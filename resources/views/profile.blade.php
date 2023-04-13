@@ -55,46 +55,23 @@
                                     </div>
                                 </div>
                                 @endforeach
-                                @endif
-                                @if(session()->has('admin_id'))
-                                @foreach($admin as $adminDetail)
-                                <div class="row mb-3">
-                                    <div class="col-sm-4">
-                                        <p class="mb-0"><strong>Name</strong></p>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <p class="text-muted mb-0">{{$adminDetail -> name}}</p>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-4">
-                                        <p class="mb-0"><strong>Email</strong></p>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <p class="text-muted mb-0">{{$adminDetail -> email}}</p>
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
-                                <div class="row justify-content-between mt-5">
-                                    <div class="col-sm-6">
-                                        <a href="{{ route('logout') }}" class="btn btn-lg btn-light w-100" style="border: 2px solid black;">Log out</a>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <a href="{{ route('booking.user') }}" class="btn btn-lg btn-secondary w-100">View bookings</a>
-                                    </div>
-                                </div>
-                                @if(session('user_id'))
                                 <div class="row mt-3">
                                     <div class="col-sm-12">
-                                        <form id="delete-user-form" method="POST" action="{{ route('delete.user') }}">
+                                        <div class="row justify-content-between mt-5">
+                                            <div class="col-sm-6">
+                                                <a href="{{ route('logout') }}" class="btn btn-lg btn-light w-100" style="border: 2px solid black;">Log out</a>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <a href="{{ route('booking.user') }}" class="btn btn-lg btn-secondary w-100">View bookings</a>
+                                            </div>
+                                        </div><br>
+                                        <form id="delete-user-form" method="POST" action="{{ route('delete.user', ['id' => session('user_id')]) }}">
                                             @csrf
                                             @method('POST')
                                             <a href="#" class="btn btn-lg btn-outline-danger w-100" name="delete-user" data-toggle="modal" data-target="#confirm-delete">Delete Profile</a>
                                         </form>
                                     </div>
                                 </div>
-
                                 <!-- Modal -->
                                 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-label" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -123,18 +100,76 @@
                                         document.getElementById('delete-user-form').submit();
                                     });
                                 </script>
-                                @elseif(session('admin_id'))
+                                @endif
+                                @if(session()->has('admin_id'))
+                                @foreach($admin as $adminDetail)
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <p class="mb-0"><strong>Name</strong></p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <p class="text-muted mb-0">{{$adminDetail -> name}}</p>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <p class="mb-0"><strong>Email</strong></p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <p class="text-muted mb-0">{{$adminDetail -> email}}</p>
+                                    </div>
+                                </div>
+                                @endforeach
+
+
                                 <div class="row mt-3">
                                     <div class="col-sm-12">
-                                        <form method="POST" action="{{ route('delete.admin') }}">
+                                        <div class="row justify-content-between mt-5">
+                                            <div class="col-sm-6">
+                                                <a href="{{ route('logout') }}" class="btn btn-lg btn-light w-100" style="border: 2px solid black;">Log out</a>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <a href="{{ route('booking.admin') }}" class="btn btn-lg btn-secondary w-100">View bookings</a>
+                                            </div>
+                                        </div><br>
+                                        <form id="delete-admin-form" method="POST" action="{{ route('delete.admin', ['id' => session('admin_id')]) }}">
                                             @csrf
                                             @method('POST')
-                                            <button type="submit" class="btn btn-lg btn-outline-danger w-100" name="delete-admin">Delete Admin Profile</button>
+                                            <button type="button" class="btn btn-lg btn-outline-danger w-100" name="delete-admin" data-toggle="modal" data-target="#confirm-delete">Delete Admin Profile</button>
                                         </form>
                                     </div>
                                 </div>
-                                @endif
 
+                                <!-- Modal -->
+                                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-label" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirm-delete-label">Are you sure you want to delete admin account?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                This action is irreversible.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                <button type="button" class="btn btn-danger" id="delete-admin-btn" data-dismiss="modal">Yes, delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    // Handle the click event for the delete button
+                                    document.getElementById('delete-admin-btn').addEventListener('click', function() {
+                                        // Submit the form when the user confirms the deletion
+                                        document.getElementById('delete-admin-form').submit();
+                                    });
+                                </script>
+
+                                @endif
                             </div>
                         </div>
                     </div>

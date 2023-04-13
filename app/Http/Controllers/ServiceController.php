@@ -57,18 +57,18 @@ class ServiceController extends Controller
     {
         // Find the service by ID
         $service = Service::findOrFail($id);
-
+    
         // Check if the user is authorized to view the service
         if (Gate::denies('view', $service)) {
             abort(403);
         }
-
+    
         // Display the service details
-        $services = Service::paginate(5);
         return view('services.displayService', [
-            'services' => $services
+            'services' => $service
         ]);
     }
+    
 
     public function edit($id)
     {
