@@ -60,11 +60,14 @@ Route::group(['middleware' => ['auth:admin']], function () {
     })->name('home.admin');
     Route::get('/admin/profile/{id}', [ProfileController::class, 'getAdmin'])->name('profile.admin');
     Route::get('/services/admin/{id}', [ServiceController::class, 'displayService'])->name('services.admin');
-    Route::get('/updateService/{id}', [ServiceController::class, 'updateService'])->name('services.update');
+    Route::view('/createService', 'services.createService')->name('service.createService');
+    Route::post('/createService', [ServiceController::class, 'createService']);
+    Route::get('/updateService/{id}', [ServiceController::class, 'edit'])->name('services.update');
+    Route::post('/updateService/{id}', [ServiceController::class, 'updateService'])->name('services.updateService');
     Route::get('/deleteService/{id}', [ServiceController::class, 'deleteService'])->name('services.delete');
     Route::get('/showBooking', [BookingController::class, 'view'])->name('booking.admin');
-    Route::get('/editBooking{id}', [BookingController::class, 'edit']);
-    Route::post('/editBooking{id}', [BookingController::class, 'showEdit'])->name('booking.editBooking');
+    Route::get('/editBooking/{id}', [BookingController::class, 'edit'])->name('booking.editBooking');
+    Route::post('/editBooking/{id}', [BookingController::class, 'update'])->name('booking.update');
     Route::delete('/removeBooking/{id}', [BookingController::class, 'delete'])->name('booking.delete');
 });
 

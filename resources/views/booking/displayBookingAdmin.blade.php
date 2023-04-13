@@ -22,9 +22,7 @@
 
                 </div>
 
-                @if(session('bookSuccess'))
-                <div class="alert alert-success">{{ session('bookSuccess') }}</div>
-                @elseif(session('deleteSuccess'))
+                @if(session('deleteSuccess'))
                 <div class="alert alert-success">{{ session('deleteSuccess') }}</div>
                 @elseif(session('updateSuccess'))
                 <div class="alert alert-success">{{ session('updateSuccess') }}</div>
