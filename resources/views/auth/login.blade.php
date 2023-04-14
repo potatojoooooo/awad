@@ -93,7 +93,7 @@
 
                                                 <div class="d-flex align-items-center justify-content-center pb-4">
                                                     <p class="mb-0 me-2">Don't have an account?</p>
-                                                    <a href="{{ route('register') }}" class="btn btn-outline-danger m-2">Register</a>
+                                                    <a href="{{ route('register.user') }}" class="btn btn-outline-danger m-2">Register</a>
                                                 </div>
                                             </form>
                                     </div>
