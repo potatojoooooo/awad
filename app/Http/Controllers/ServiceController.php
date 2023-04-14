@@ -105,12 +105,14 @@ class ServiceController extends Controller
         $service->price = $validatedData['price'];
         $service->description = $validatedData['description'];
 
-        // Handle the image upload (if any)
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $filename = $image->getClientOriginalName();
-            $image->storeAs('public/images', $filename);
-            $service->image = $filename;
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = public_path('images/' . $filename);
+            $image->move(public_path('images'), $filename);
+            $service->image = 'images/' . $filename;
+        } else {
+            $service->image = 'images/default.jpg'; // set a default image if no file is uploaded
         }
 
         // Save the updated service
