@@ -101,7 +101,11 @@
                                             @foreach($services as $service)
                                             <div class="d-flex mt-3">
                                                 <div>
-                                                    <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
+                                                @if ($service->image)
+                                                <img class="img-thumbnail" src="{{ asset($service->image) }}" alt="{{ $service->name }}" style="width:100px!important; height:100px!important;">
+                                                @else
+                                                No image
+                                                @endif
                                                 </div>
                                                 <div class="ml-4 mt-3 text-left">
                                                     <h5>Service {{$service -> id}}</h5>
