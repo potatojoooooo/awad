@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->double('price');
             $table->string('description');
-            $table->binary('image', 16777215);
+            $table->string('image');
         });
     }
 

@@ -33,19 +33,20 @@ class ServiceController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Upload the image file if provided
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imagePath = $image->store('services', 'public');
-        }
-
         // Create a new service with the validated data
         $service = new Service();
         $service->name = $validatedData['name'];
         $service->price = $validatedData['price'];
         $service->description = $validatedData['description'];
-        $service->image = $imagePath;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = public_path('images/' . $filename);
+            $image->move(public_path('images'), $filename);
+            $service->image = 'images/' . $filename;
+        } else {
+            $service->image = 'images/default.jpg'; // set a default image if no file is uploaded
+        }
         $service->save();
 
         // Redirect the user to the service details page

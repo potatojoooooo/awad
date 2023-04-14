@@ -28,11 +28,11 @@
                     @endif
                 </div>
                 @if(session('createSuccess'))
-                        <div class="alert alert-success">{{ session('createSuccess') }}</div>
+                <div class="alert alert-success">{{ session('createSuccess') }}</div>
                 @elseif(session('deleteSuccess'))
-                        <div class="alert alert-success">{{ session('deleteSuccess') }}</div>
+                <div class="alert alert-success">{{ session('deleteSuccess') }}</div>
                 @elseif(session('updateSuccess'))
-                        <div class="alert alert-success">{{ session('updateSuccess') }}</div>
+                <div class="alert alert-success">{{ session('updateSuccess') }}</div>
                 @endif
                 @if(isset($services) && count($services) > 0)
                 <h4>We offer a variety of beauty services to help you look and feel your best. Choose from the following:</h4><br>
@@ -61,7 +61,12 @@
                                         <tr>
                                             <td>
                                                 <h5>{{$service->name}}</h5>
-                                                <img src="data:image/{{ $service->image_type }};base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
+                                               
+                                                @if ($service->image)
+                                                <img class="img-thumbnail" src="{{ asset($service->image) }}" alt="{{ $service->name }}" style="width:100px!important; height:100px!important;">
+                                                @else
+                                                No image
+                                                @endif
                                             </td>
                                             <td class="service-description">
                                                 <h6>{{$service->description}}</h6>
