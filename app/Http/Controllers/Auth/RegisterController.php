@@ -82,6 +82,7 @@ class RegisterController extends Controller
         Admin::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
         ]);
         return redirect()->intended('login/admin')->with('adminSuccess', 'Admin created successfully');
