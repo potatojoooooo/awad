@@ -119,6 +119,14 @@
                                         <p class="text-muted mb-0">{{$adminDetail -> email}}</p>
                                     </div>
                                 </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-4">
+                                        <p class="mb-0"><strong>Phone</strong></p>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <p class="text-muted mb-0">{{$adminDetail -> phone}}</p>
+                                    </div>
+                                </div>
                                 @endforeach
 
 

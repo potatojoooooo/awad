@@ -61,8 +61,7 @@
                                         <tr>
                                             <td>
                                                 <h5>{{$service->name}}</h5>
-                                                <img src="data:image/png;base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
-
+                                                <img src="data:image/{{ $service->image_type }};base64,{{ base64_encode($service->image) }}" alt="{{ $service->name }}" width="100">
                                             </td>
                                             <td class="service-description">
                                                 <h6>{{$service->description}}</h6>
